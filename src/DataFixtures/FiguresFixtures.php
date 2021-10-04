@@ -6,7 +6,6 @@ use App\Entity\Figure;
 use App\DataFixtures\UserFixtures;
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\FigureGroupFixtures;
-use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 

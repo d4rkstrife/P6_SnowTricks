@@ -20,7 +20,7 @@ class FigurePicture
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $link;
+    private $filename;
 
     /**
      * @ORM\ManyToOne(targetEntity=Figure::class, inversedBy="figurePictures")
@@ -33,14 +33,14 @@ class FigurePicture
         return $this->id;
     }
 
-    public function getLink(): ?string
+    public function getFilename(): ?string
     {
-        return $this->link;
+        return $this->filename;
     }
 
-    public function setLink(string $link): self
+    public function setFilename(string $filename): self
     {
-        $this->link = $link;
+        $this->filename = $filename;
 
         return $this;
     }
