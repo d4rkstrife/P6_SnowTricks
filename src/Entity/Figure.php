@@ -56,6 +56,16 @@ class Figure
      */
     private $figureGroup;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $modifiedAt;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -202,6 +212,30 @@ class Figure
     public function setFigureGroup(?FigureGroup $figureGroup): self
     {
         $this->figureGroup = $figureGroup;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTime $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getModifiedAt(): ?\DateTime
+    {
+        return $this->modifiedAt;
+    }
+
+    public function setModifiedAt(?\DateTime $modifiedAt): self
+    {
+        $this->modifiedAt = $modifiedAt;
 
         return $this;
     }
