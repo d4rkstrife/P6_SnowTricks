@@ -6,6 +6,7 @@ use App\Entity\Figure;
 use App\DataFixtures\UserFixtures;
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\FigureGroupFixtures;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
@@ -63,6 +64,7 @@ class FiguresFixtures extends Fixture implements DependentFixtureInterface
             $article->setDescription($data["description"]);
             $article->setAutor($this->getReference(random_int(1, 10)));
             $article->setFigureGroup($this->getReference($data["groupe"]));
+            $article->setCreatedAt(date_create());
             $manager->persist($article);
         }
         $manager->flush();
