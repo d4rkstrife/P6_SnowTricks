@@ -28,6 +28,11 @@ class FigurePicture
      */
     private $relatedFigure;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $main;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +58,18 @@ class FigurePicture
     public function setRelatedFigure(?Figure $relatedFigure): self
     {
         $this->relatedFigure = $relatedFigure;
+
+        return $this;
+    }
+
+    public function getMain(): ?bool
+    {
+        return $this->main;
+    }
+
+    public function setMain(bool $main): self
+    {
+        $this->main = $main;
 
         return $this;
     }
