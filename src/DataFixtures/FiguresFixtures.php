@@ -66,6 +66,7 @@ class FiguresFixtures extends Fixture implements DependentFixtureInterface
             $article->setCreatedAt(date_create());
             $article->setSlug($data["groupe"] . "_" . $data["nom"]);
             $manager->persist($article);
+            $this->addReference($data['nom'], $article);
         }
         $manager->flush();
     }
