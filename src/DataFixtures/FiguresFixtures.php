@@ -8,9 +8,14 @@ use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\FigureGroupFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class FiguresFixtures extends Fixture implements DependentFixtureInterface
 {
+    public function __construct()
+    {
+        $this->slugger = new AsciiSlugger();
+    }
     public function load(ObjectManager $manager)
     {
         $datas = [
@@ -54,6 +59,24 @@ class FiguresFixtures extends Fixture implements DependentFixtureInterface
                 "nom" => "720",
                 "description" => "Sept deux pour deux tours complets.",
                 "groupe" => "rotation"
+            ],
+
+            [
+                "nom" => "Backside Rodeo 1080",
+                "description" => "Trois tours avec une rotation désaxée (Rodeo).",
+                "groupe" => "rotation"
+            ],
+
+            [
+                "nom" => "Rodeo",
+                "description" => "Le rodeo est une rotation désaxée, qui se reconnaît par son aspect vrillé.",
+                "groupe" => "rotation"
+            ],
+
+            [
+                "nom" => "Cork",
+                "description" => "Un cork est une rotation horizontale plus ou moins désaxée, selon un mouvement d'épaules effectué juste au moment du saut.",
+                "groupe" => "rotation"
             ]
 
         ];
@@ -64,7 +87,7 @@ class FiguresFixtures extends Fixture implements DependentFixtureInterface
             $article->setAutor($this->getReference(random_int(1, 10)));
             $article->setFigureGroup($this->getReference($data["groupe"]));
             $article->setCreatedAt(date_create());
-            $article->setSlug($data["groupe"] . "_" . $data["nom"]);
+            $article->setSlug($this->slugger->slug($data["nom"]));
             $manager->persist($article);
             $this->addReference($data['nom'], $article);
         }
@@ -72,9 +95,9 @@ class FiguresFixtures extends Fixture implements DependentFixtureInterface
     }
     public function getDependencies()
     {
-        return array(
+        return [
             UserFixtures::class,
             FigureGroupFixtures::class
-        );
+        ];
     }
 }
