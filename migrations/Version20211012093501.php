@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20211005093617 extends AbstractMigration
+final class Version20211012093501 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,7 +26,7 @@ final class Version20211005093617 extends AbstractMigration
         $this->addSql('CREATE TABLE figure_picture (id INT AUTO_INCREMENT NOT NULL, related_figure_id INT NOT NULL, filename VARCHAR(255) NOT NULL, main TINYINT(1) NOT NULL, INDEX IDX_1C84F60BAD014DAE (related_figure_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE figure_video (id INT AUTO_INCREMENT NOT NULL, related_figure_id INT NOT NULL, link VARCHAR(255) NOT NULL, INDEX IDX_6EEA5C15AD014DAE (related_figure_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE profil_picture (id INT AUTO_INCREMENT NOT NULL, related_user_id INT NOT NULL, link VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_93CF80D898771930 (related_user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, mail VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, mail_is_validate TINYINT(1) NOT NULL, registration_key VARCHAR(255) DEFAULT NULL, UNIQUE INDEX UNIQ_8D93D6495E237E06 (name), UNIQUE INDEX UNIQ_8D93D6495126AC48 (mail), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, registration_key VARCHAR(255) DEFAULT NULL, mail_is_validate TINYINT(1) NOT NULL, UNIQUE INDEX UNIQ_8D93D6495E237E06 (name), UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CAD014DAE FOREIGN KEY (related_figure_id) REFERENCES figure (id)');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE figure ADD CONSTRAINT FK_2F57B37A14D45BBE FOREIGN KEY (autor_id) REFERENCES user (id)');

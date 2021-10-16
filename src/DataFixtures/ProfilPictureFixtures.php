@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\ProfilPicture;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ProfilPictureFixtures extends Fixture
+class ProfilPictureFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -57,13 +58,17 @@ class ProfilPictureFixtures extends Fixture
         foreach ($datas as $data) {
             $profilPicture = new ProfilPicture();
             $profilPicture->setLink($data['file']);
-            $profilPicture->setRelatedUser($this->getReference($i));
-            $i++;
+            $profilPicture->setRelatedUser($this->getReference($data['user']));
             $manager->persist($profilPicture);
         }
 
-        // $manager->persist($product);
 
         $manager->flush();
+    }
+    public function getDependencies()
+    {
+        return [
+            UserFixtures::class
+        ];
     }
 }

@@ -5,9 +5,17 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
 
     public const USER_REFERENCE = 'user';
 
@@ -17,11 +25,11 @@ class UserFixtures extends Fixture
             $password = "password";
             $user = new User();
             $user->setName("user" . $i);
-            $user->setMail("test" . $i . "@mail.com");
-            $user->setPassword($password);
+            $user->setEmail("test" . $i . "@mail.com");
+            $user->setPassword($this->passwordHasher->hashPassword($user, $password));
             $user->setMailIsValidate(1);
             $manager->persist($user);
-            $this->addReference($i, $user);
+            $this->addReference($user->getName(), $user);
         }
 
 
