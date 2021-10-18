@@ -1,19 +1,63 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+		<title>
+			{% block title %}SnowTricks
+			{% endblock %}
+		</title>
+		{# Run `composer require symfony/webpack-encore-bundle`
+																																																								           and uncomment the following Encore helpers to start using Symfony UX #}
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+			{{ encore_entry_script_tags('jquery') }}
+		{% endblock %}
+	</head>
+	<body id="top">
+		<!-- ################################################################################################ -->
+		<!-- ################################################################################################ -->
+		<!-- ################################################################################################ -->
+		<!-- Top Background Image Wrapper -->
+			<div class="bgded overlay"> <!-- ################################################################################################ -->
+
+			<!-- ################################################################################################ -->
+			<!-- ################################################################################################ -->
+			<!-- ################################################################################################ -->
+				<section id="navwrapper" class="hoc clear"> <nav id="mainav">
+					<div id="logo" class="one_quarter first">
+						<h1>
+							<a href="/">SnowTricks</a>
+						</h1>
+					</div>
+					<ul class="clear">
+						<li class="active">
+							<a href="/">Accueil</a>
+						</li>
+						<li>
+							<a href="/figures">Figures</a>
+						</li>
+					</ul>
+				</nav>
+				<img src="image/man-g609b0aeff_1920.jpg">
+			<!-- ################################################################################################ -->
+				<!-- ################################################################################################ -->
+			</section>
+
+			<!-- ################################################################################################ -->
+		<!-- ################################################################################################ -->
+			<!-- ################################################################################################ -->
+
+			<!-- ################################################################################################ -->
+		</div>
+		{% block body %}{% endblock %}
+		<script src="layout/scripts/jquery.min.js"></script>
+		<script src="layout/scripts/jquery.backtotop.js"></script>
+		<script src="layout/scripts/jquery.mobilemenu.js"></script>
+	</body>
 </html>
