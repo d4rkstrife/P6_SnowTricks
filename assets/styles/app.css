@@ -1,3 +1,30 @@
-body {
-    background-color: lightgray;
+.figure-card-list {
+    margin: 25px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#index-img {
+    height: 95vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+#index-fullscreen-img {
+    height: 100%;
+    width: 100%;
+}
+
+.card {
+    margin: 20px;
+}
+
+.arrow-down {
+    height: 80px;
+    width: 80px;
+    position: absolute;
+    bottom: 5%;
 }
