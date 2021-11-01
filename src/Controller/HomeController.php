@@ -11,10 +11,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class HomeController extends AbstractController
 {
 
-    #[Route('/', name: 'home')]
-    public function index(FigureRepository $figureRepository): Response
+    #[Route('/page={page}', name: 'home', requirements: ['page' => '\d+'])]
+    public function index(FigureRepository $figureRepository, int $page): Response
     {
-        $datas = $figureRepository->findBy([], ['createdAt' => 'desc'], 4, 0);
+        $datas = $figureRepository->findBy([], ['createdAt' => 'desc'], $page * 2, 0);
 
         return $this->render('home/index.html.twig', [
             'datas' => $datas

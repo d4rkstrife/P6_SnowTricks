@@ -1,0 +1,80 @@
+.figure-card-list {
+    margin: 25px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#index-img {
+    height: 95vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+#index-fullscreen-img {
+    height: 100%;
+    width: 100%;
+}
+
+.card {
+    margin: 20px;
+}
+
+.arrow-down {
+    height: 80px;
+    width: 80px;
+    position: absolute;
+    bottom: 5%;
+}
+
+
+/* Markup */
+
+.container {
+    height: 100vh;
+    padding: 20px;
+    text-align: center;
+}
+
+.content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    p {
+        margin: 0 0 20px;
+    }
+}
+
+
+/* Arrow & Hover Animation */
+
+#more-arrows {
+    width: 75px;
+    height: 65px;
+    &:hover {
+        polygon {
+            fill: #fff;
+            transition: all 0.2s ease-out;
+            &.arrow-bottom {
+                transform: translateY(-18px);
+            }
+            &.arrow-top {
+                transform: translateY(18px);
+            }
+        }
+    }
+}
+
+polygon {
+    fill: #fff;
+    transition: all 0.2s ease-out;
+    &.arrow-middle {
+        opacity: 0.75;
+    }
+    &.arrow-top {
+        opacity: 0.5;
+    }
+}
