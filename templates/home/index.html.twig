@@ -23,11 +23,15 @@
 		<ul class="figure-card-list" id="figures_card">
 			{% for data in datas %}
 				<div class="card" style="width: 18rem;">
+
 					{% for picture in data.figurePictures %}
 						{% if picture.main %}
-							<img src="{{ asset('image/' ~ picture.fileName) }}" class="card-img-top">
+							<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img-top">
 						{% endif %}
+					{% else %}
+						<img src="{{ asset('image/default/default.jpg') }}" class="card-img-top">
 					{% endfor %}
+
 					<div class="card-body">
 						<h5 class="card-title">{{ data.name }}</h5>
 						<p class="card-text">{{ data.description }}</p>
