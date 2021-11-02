@@ -1,0 +1,8 @@
+nav:
+  home: Accueil
+  signIn: Se connecter
+  signUp: S'enregistrer
+card:
+  details: Détails
+button: 
+  more: Plus

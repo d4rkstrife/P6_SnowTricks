@@ -35,7 +35,7 @@ class FigurePicturesFixtures extends Fixture implements DependentFixtureInterfac
             ],
             [
                 "figure" => "indy",
-                "filename" => "indy1.jpg",
+                "filename" => "indy2.jpg",
                 "main" => 0
             ],
             [
@@ -71,6 +71,21 @@ class FigurePicturesFixtures extends Fixture implements DependentFixtureInterfac
             [
                 "figure" => "720",
                 "filename" => "720.jpg",
+                "main" => 1
+            ],
+            [
+                "figure" => "Rodeo",
+                "filename" => "rodeo.jpg",
+                "main" => 1
+            ],
+            [
+                "figure" => "Cork",
+                "filename" => "cork.jpg",
+                "main" => 1
+            ],
+            [
+                "figure" => "Backside Rodeo 1080",
+                "filename" => "Backsiderodeo.jpg",
                 "main" => 1
             ]
         ];
