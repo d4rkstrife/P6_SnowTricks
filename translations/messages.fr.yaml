@@ -4,3 +4,5 @@ nav:
   signUp: S'enregistrer
 card:
   details: Détails
+button: 
+  more: Plus

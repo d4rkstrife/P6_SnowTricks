@@ -14,7 +14,7 @@ class HomeController extends AbstractController
     #[Route('/page={page}', name: 'home', requirements: ['page' => '\d+'])]
     public function index(FigureRepository $figureRepository, int $page = 1): Response
     {
-        $datas = $figureRepository->findBy([], ['createdAt' => 'desc'], 15, 0);
+        $datas = $figureRepository->findBy([], ['createdAt' => 'desc'], $page * 2, 0);
 
         return $this->render('home/index.html.twig', [
             'datas' => $datas,
