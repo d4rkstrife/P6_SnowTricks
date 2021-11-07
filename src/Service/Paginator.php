@@ -9,19 +9,22 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class Paginator
 {
-    protected $requestStack;
-    private $page;
+    private RequestStack $requestStack;
+    private int $page;
+    private int $itemsPerPage;
+    private int $maxItems;
 
     public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
         $this->page = $this->getPage();
+        $this->itemsPerPage = 2;
+        $this->maxItems = 15;
     }
 
     public function numberOfItems(): int
     {
-        $itemsToReturn = 2;
-        return $this->page * $itemsToReturn;
+        return $this->page * $this->itemsPerPage;
     }
     public function getPage(): int
     {
@@ -31,5 +34,9 @@ class Paginator
         } elseif (!$request) {
             return 1;
         }
+    }
+    public function numberOfPages(): int
+    {
+        return round($this->maxItems / $this->itemsPerPage, 0, PHP_ROUND_HALF_UP);
     }
 }

@@ -1,1 +1,33 @@
-<h1>{{ datas.description }}</h1>
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ datas.name }}
+{% endblock %}
+
+{% block body %}
+	<div class="trick-page-top">
+		{% for picture in datas.figurePictures %}
+			{% if picture.main %}
+				<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="trick-main-image">
+			{% endif %}
+		{% else %}
+			<img src="{{ asset('image/default/default.jpg') }}">
+		{% endfor %}
+		<h1>{{ datas.name | capitalize}}</h1>
+	</div>
+	<div>
+		{% for video in datas.relatedVideos %}
+			<div class="trick-small-image">
+				{{ video.link | raw}}
+			</div>
+
+		{% endfor %}
+		{% for picture in datas.figurePictures %}
+			{% if picture.main is same as false %}
+
+				<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="trick-small-image">
+			{% endif %}
+
+		{% endfor %}
+	</div>
+{% endblock %}

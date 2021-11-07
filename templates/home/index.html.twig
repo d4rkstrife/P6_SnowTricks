@@ -24,6 +24,7 @@
 			{% for data in datas %}
 				<div class="card" style="width: 18rem;">
 
+
 					{% for picture in data.figurePictures %}
 						{% if picture.main %}
 							<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img-top">
@@ -33,14 +34,16 @@
 					{% endfor %}
 
 					<div class="card-body">
-						<h5 class="card-title">{{ data.name }}</h5>
-						<p class="card-text">{{ data.description }}</p>
-						<a href=" {{path('figure', {slug: data.slug} )}}" class="btn btn-primary">{{"card.details"|trans}}</a>
+						<a href=" {{path('figure', {slug: data.slug} )}}">{{ data.name|capitalize }}</a>
+						<div>
+							<img src="{{ asset('image/icons/penne.png') }}" class="icons">
+							<img src="{{ asset('image/icons/poubelle.png') }}" class="icons">
+						</div>
 					</div>
 				</div>
 			{% endfor %}
-			{% if page < 7 %}
-				<a href="{{path('home', {page: page + 1 } )}}">
+			{% if page < maxPage %}
+				<a href="{{path('home', {page: page + 1 } )}}#figures_card">
 					<button type="button" class="btn btn-light" style="height:50px">{{"button.more"|trans}}</button>
 				</a>
 			{% endif %}
