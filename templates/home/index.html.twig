@@ -39,8 +39,11 @@
 					</div>
 				</div>
 			{% endfor %}
-
-			<button type="button" class="btn btn-light" style="height:50px">{{"button.more"|trans}}</button>
+			{% if page < 7 %}
+				<a href="{{path('home', {page: page + 1 } )}}">
+					<button type="button" class="btn btn-light" style="height:50px">{{"button.more"|trans}}</button>
+				</a>
+			{% endif %}
 		</ul>
 	</div>
 {% endblock %}

@@ -2,23 +2,25 @@
 
 namespace App\Controller;
 
+use App\Service\Paginator;
 use App\Repository\FigureRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
 
-    #[Route('/page={page}', name: 'home', requirements: ['page' => '\d+'])]
-    public function index(FigureRepository $figureRepository, int $page = 1): Response
+    #[Route('/', name: 'home')]
+    public function index(FigureRepository $figureRepository, Paginator $paginator): Response
     {
-        $datas = $figureRepository->findBy([], ['createdAt' => 'desc'], $page * 2, 0);
+        $datas = $figureRepository->findBy([], ['createdAt' => 'desc'],  $paginator->numberOfItems(), 0);
 
         return $this->render('home/index.html.twig', [
             'datas' => $datas,
-            'currentPage' => $page
+            'page' => $paginator->getPage()
         ]);
     }
 }
