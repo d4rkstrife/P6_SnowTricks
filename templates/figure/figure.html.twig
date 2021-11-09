@@ -15,11 +15,9 @@
 		{% endfor %}
 		<h1>{{ datas.name | capitalize}}</h1>
 	</div>
-	<div>
+	<div class="trick-page-mid">
 		{% for video in datas.relatedVideos %}
-			<div class="trick-small-image">
-				{{ video.link | raw}}
-			</div>
+			{{ video.link | raw}}
 
 		{% endfor %}
 		{% for picture in datas.figurePictures %}
@@ -28,6 +26,22 @@
 				<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="trick-small-image">
 			{% endif %}
 
+		{% endfor %}
+	</div>
+	<div class="trick-description">
+		<h2>{{"figure.description"|trans}}</h2>
+		<p>{{ datas.description }}</p>
+	</div>
+	<div class="trick-comments">
+		<h2>{{"figure.comments"|trans}}</h2>
+		{% for comment in datas.comments %}
+			<div class="figure-comment">
+				<div class="figure-comment-details">
+					<p>{{ comment.user.name }}</p>
+					<p>{{ comment.date | date }}</p>
+				</div>
+				<p>{{ comment.content }}</p>
+			</div>
 		{% endfor %}
 	</div>
 {% endblock %}

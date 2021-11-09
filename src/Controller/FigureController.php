@@ -13,7 +13,16 @@ class FigureController extends AbstractController
     public function figureShow(FigureRepository $figureRepository, string $slug): Response
     {
         $datas = $figureRepository->findOneBy(['slug' => $slug]);
-        return $this->render('home/figure.html.twig', [
+        return $this->render('figure/figure.html.twig', [
+            'datas' => $datas
+        ]);
+    }
+
+    #[Route('/modification/{slug}', name: 'modification')]
+    public function figureModification(FigureRepository $figureRepository, string $slug): Response
+    {
+        $datas = $figureRepository->findOneBy(['slug' => $slug]);
+        return $this->render('figure/modification.html.twig', [
             'datas' => $datas
         ]);
     }

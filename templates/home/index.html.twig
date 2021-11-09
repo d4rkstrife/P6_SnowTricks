@@ -34,10 +34,10 @@
 					{% endfor %}
 
 					<div class="card-body">
-						<a href=" {{path('figure', {slug: data.slug} )}}">{{ data.name|capitalize }}</a>
+						<a href="{{path('figure', {slug: data.slug} )}}">{{ data.name|capitalize }}</a>
 						<div>
-							<img src="{{ asset('image/icons/penne.png') }}" class="icons">
-							<img src="{{ asset('image/icons/poubelle.png') }}" class="icons">
+							<a href="{{path('modification', {slug: data.slug} )}}"><img src="{{ asset('image/icons/penne.png') }}" class="icons"></a>
+							<a href="#"><img src="{{ asset('image/icons/poubelle.png') }}" class="icons"></a>
 						</div>
 					</div>
 				</div>

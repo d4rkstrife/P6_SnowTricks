@@ -107,6 +107,43 @@ polygon {
     border: 1px solid rgba(0, 14, 0, .125)
 }
 
-.trick-main-image iframe {
-    width: auto;
+.trick-page-mid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.trick-page-mid iframe {
+    width: 15%;
+    height: 150px;
+}
+
+.trick-small-image {
+    width: 15%;
+    height: 150px;
+}
+
+.trick-description {
+    text-align: center;
+}
+
+.trick-comments {
+    margin: 5vh 15% 5vh 15%;
+    text-align: center;
+}
+
+.figure-comment {
+    border: 1px solid rgba(0, 14, 0, .125);
+    background-color: aliceblue;
+    margin-bottom: 5px;
+}
+
+.figure-comment-details {
+    border-bottom: 1px solid rgba(0, 14, 0, .125);
+    display: flex;
+}
+
+.figure-comment-details p {
+    padding-left: 10px;
+    padding-right: 15px;
 }
