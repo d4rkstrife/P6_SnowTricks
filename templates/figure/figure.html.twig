@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ datas.name }}
+{% endblock %}
+
+{% block body %}
+	<div class="trick-page-top">
+		{% for picture in datas.figurePictures %}
+			{% if picture.main %}
+				<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="trick-main-image">
+			{% endif %}
+		{% else %}
+			<img src="{{ asset('image/default/default.jpg') }}">
+		{% endfor %}
+		<h1>{{ datas.name | capitalize}}</h1>
+	</div>
+	<div class="trick-page-mid">
+		{% for video in datas.relatedVideos %}
+			{{ video.link | raw}}
+
+		{% endfor %}
+		{% for picture in datas.figurePictures %}
+			{% if picture.main is same as false %}
+
+				<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="trick-small-image">
+			{% endif %}
+
+		{% endfor %}
+	</div>
+	<div class="trick-description">
+		<h2>{{"figure.description"|trans}}</h2>
+		<p>{{ datas.description }}</p>
+	</div>
+	<div class="trick-comments">
+		<h2>{{"figure.comments"|trans}}</h2>
+		{% for comment in datas.comments %}
+			<div class="figure-comment">
+				<div class="figure-comment-details">
+					<p>{{ comment.user.name }}</p>
+					<p>{{ comment.date | date }}</p>
+				</div>
+				<p>{{ comment.content }}</p>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

@@ -6,3 +6,6 @@ card:
   details: Détails
 button: 
   more: Plus
+figure:
+  description: Description
+  comments: Commentaires

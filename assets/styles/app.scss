@@ -78,3 +78,72 @@ polygon {
         opacity: 0.5;
     }
 }
+
+.card {
+    height: 35vh;
+}
+
+.card-img-top {
+    height: 80%;
+    border-bottom: 1px solid rgba(0, 14, 0, .125);
+}
+
+.icons {
+    height: 15px;
+}
+
+.card-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+.trick-page-top {
+    width: 100%;
+    text-align: center;
+}
+
+.trick-main-image {
+    width: 60%;
+    border: 1px solid rgba(0, 14, 0, .125)
+}
+
+.trick-page-mid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.trick-page-mid iframe {
+    width: 15%;
+    height: 150px;
+}
+
+.trick-small-image {
+    width: 15%;
+    height: 150px;
+}
+
+.trick-description {
+    text-align: center;
+}
+
+.trick-comments {
+    margin: 5vh 15% 5vh 15%;
+    text-align: center;
+}
+
+.figure-comment {
+    border: 1px solid rgba(0, 14, 0, .125);
+    background-color: aliceblue;
+    margin-bottom: 5px;
+}
+
+.figure-comment-details {
+    border-bottom: 1px solid rgba(0, 14, 0, .125);
+    display: flex;
+}
+
+.figure-comment-details p {
+    padding-left: 10px;
+    padding-right: 15px;
+}
