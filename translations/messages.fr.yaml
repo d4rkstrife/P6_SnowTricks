@@ -2,6 +2,8 @@ nav:
   home: Accueil
   signIn: Se connecter
   signUp: S'enregistrer
+  username: Utilisateur
+  newTrick: Nouvelle figure
 card:
   details: Détails
 button: 

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 
@@ -14,11 +15,11 @@ class Paginator
     private int $itemsPerPage;
     private int $maxItems;
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, ParameterBagInterface $params)
     {
         $this->requestStack = $requestStack;
         $this->page = $this->getPage();
-        $this->itemsPerPage = 2;
+        $this->itemsPerPage = $params->get('app.itemperpage');
         $this->maxItems = 15;
     }
 
@@ -26,6 +27,7 @@ class Paginator
     {
         return $this->page * $this->itemsPerPage;
     }
+
     public function getPage(): int
     {
         $request = $this->requestStack->getCurrentRequest()->get('page');

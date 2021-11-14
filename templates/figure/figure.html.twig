@@ -33,15 +33,16 @@
 		<p>{{ datas.description }}</p>
 	</div>
 	<div class="trick-comments">
-		<h2>{{"figure.comments"|trans}}</h2>
-		{% for comment in datas.comments %}
-			<div class="figure-comment">
-				<div class="figure-comment-details">
-					<p>{{ comment.user.name }}</p>
-					<p>{{ comment.date | date }}</p>
+		{{ form(form) }}
+			<h2>{{"figure.comments"|trans}}</h2>
+			{% for comment in datas.comments %}
+				<div class="figure-comment">
+					<div class="figure-comment-details">
+						<p>{{ comment.user.name }}</p>
+						<p>{{ comment.date | date }}</p>
+					</div>
+					<p>{{ comment.content }}</p>
 				</div>
-				<p>{{ comment.content }}</p>
-			</div>
-		{% endfor %}
-	</div>
-{% endblock %}
+			{% endfor %}
+		</div>
+	{% endblock %}

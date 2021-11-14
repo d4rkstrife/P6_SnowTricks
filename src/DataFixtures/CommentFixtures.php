@@ -14,52 +14,52 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         $datas = [
             [
                 "user" => "user1",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer metus urna, condimentum ut turpis ultrices, semper porta orci. Nulla at efficitur augue. Vivamus semper elit vitae mollis convallis. Etiam risus lectus, aliquet non lacus quis, euismod viverra ipsum. Nulla porta urna vitae sagittis scelerisque.",
+                "content" => "C'est trop classe!",
                 "figure" => "mute"
             ],
             [
                 "user" => "user2",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer metus urna, condimentum ut turpis ultrices, semper porta orci. Nulla at efficitur augue. Vivamus semper elit vitae mollis convallis. Etiam risus lectus, aliquet non lacus quis, euismod viverra ipsum. Nulla porta urna vitae sagittis scelerisque.",
+                "content" => "J'ai jamais réussi...",
                 "figure" => "mute"
             ],
             [
                 "user" => "user3",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer metus urna, condimentum ut turpis ultrices, semper porta orci. Nulla at efficitur augue. Vivamus semper elit vitae mollis convallis. Etiam risus lectus, aliquet non lacus quis, euismod viverra ipsum. Nulla porta urna vitae sagittis scelerisque.",
+                "content" => "Trop facile!",
                 "figure" => "mute"
             ],
             [
                 "user" => "user6",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer metus urna, condimentum ut turpis ultrices, semper porta orci. Nulla at efficitur augue. Vivamus semper elit vitae mollis convallis. Etiam risus lectus, aliquet non lacus quis, euismod viverra ipsum. Nulla porta urna vitae sagittis scelerisque.",
+                "content" => "Bien se pencher en avant pour y arriver.",
                 "figure" => "360"
             ],
             [
                 "user" => "user9",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer metus urna, condimentum ut turpis ultrices, semper porta orci. Nulla at efficitur augue. Vivamus semper elit vitae mollis convallis. Etiam risus lectus, aliquet non lacus quis, euismod viverra ipsum. Nulla porta urna vitae sagittis scelerisque.",
+                "content" => "La plus simple des rotations.",
                 "figure" => "360"
             ],
             [
                 "user" => "user8",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer metus urna, condimentum ut turpis ultrices, semper porta orci. Nulla at efficitur augue. Vivamus semper elit vitae mollis convallis. Etiam risus lectus, aliquet non lacus quis, euismod viverra ipsum. Nulla porta urna vitae sagittis scelerisque.",
+                "content" => "Comme sur un cheval!",
                 "figure" => "Rodeo"
             ],
             [
                 "user" => "user1",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer metus urna, condimentum ut turpis ultrices, semper porta orci. Nulla at efficitur augue. Vivamus semper elit vitae mollis convallis. Etiam risus lectus, aliquet non lacus quis, euismod viverra ipsum. Nulla porta urna vitae sagittis scelerisque.",
+                "content" => "La vidéo explique bien.",
                 "figure" => "Rodeo"
             ],
             [
                 "user" => "user1",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer metus urna, condimentum ut turpis ultrices, semper porta orci. Nulla at efficitur augue. Vivamus semper elit vitae mollis convallis. Etiam risus lectus, aliquet non lacus quis, euismod viverra ipsum. Nulla porta urna vitae sagittis scelerisque.",
+                "content" => "La base!",
                 "figure" => "tail grab"
             ],
             [
                 "user" => "user4",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer metus urna, condimentum ut turpis ultrices, semper porta orci. Nulla at efficitur augue. Vivamus semper elit vitae mollis convallis. Etiam risus lectus, aliquet non lacus quis, euismod viverra ipsum. Nulla porta urna vitae sagittis scelerisque.",
+                "content" => "J ai mangé la neige plus d'une fois en faisant ça.",
                 "figure" => "tail grab"
             ],
             [
                 "user" => "user1",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer metus urna, condimentum ut turpis ultrices, semper porta orci. Nulla at efficitur augue. Vivamus semper elit vitae mollis convallis. Etiam risus lectus, aliquet non lacus quis, euismod viverra ipsum. Nulla porta urna vitae sagittis scelerisque.",
+                "content" => "Mdr",
                 "figure" => "tail grab"
             ],
         ];
