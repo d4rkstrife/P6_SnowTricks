@@ -24,21 +24,34 @@
 			{% for data in datas %}
 				<div class="card" style="width: 18rem;">
 
-
-					{% for picture in data.figurePictures %}
-						{% if picture.main %}
-							<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img-top">
-						{% endif %}
-					{% else %}
+					{% if data.figurePictures|length == 0 %}
 						<img src="{{ asset('image/default/default.jpg') }}" class="card-img-top">
-					{% endfor %}
+
+					{% elseif data.figurePictures|length == 1 %}
+						<img src="{{ asset('image/upload/' ~ data.figurePictures[0].fileName) }}" class="card-img-top">
+
+
+					{% elseif data.figurePictures|length > 1 %}
+						{% set mainExist = false %}
+						{% for picture in data.figurePictures %}
+							{% if picture.main %}
+								{% set mainExist = true %}
+								<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img-top">
+							{% endif %}
+						{% endfor %}
+						{% if mainExist == false %}
+							<img src="{{ asset('image/upload/' ~ data.figurePictures[0].fileName) }}" class="card-img-top">
+						{% endif %}
+					{% endif %}
 
 					<div class="card-body">
 						<a href="{{path('figure', {slug: data.slug} )}}">{{ data.name|capitalize }}</a>
-						<div>
-							<a href="{{path('modification', {slug: data.slug} )}}"><img src="{{ asset('image/icons/penne.png') }}" class="icons"></a>
-							<a href="#"><img src="{{ asset('image/icons/poubelle.png') }}" class="icons"></a>
-						</div>
+						{% if app.user %}
+							<div>
+								<a href="{{path('modification', {slug: data.slug} )}}"><img src="{{ asset('image/icons/penne.png') }}" class="icons"></a>
+								<a href="#"><img src="{{ asset('image/icons/poubelle.png') }}" class="icons"></a>
+							</div>
+						{% endif %}
 					</div>
 				</div>
 			{% endfor %}
@@ -47,6 +60,10 @@
 					<button type="button" class="btn btn-light" style="height:50px">{{"button.more"|trans}}</button>
 				</a>
 			{% endif %}
+			<a href="{{path('home', {page: 1})}}">
+				<img src="{{asset('image/icons/arrow-up.png')}}" class="up-arrow">
+			</a>
+
 		</ul>
 	</div>
 {% endblock %}

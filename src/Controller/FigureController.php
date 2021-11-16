@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Repository\FigureRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,8 +15,14 @@ class FigureController extends AbstractController
     public function figureShow(FigureRepository $figureRepository, string $slug): Response
     {
         $datas = $figureRepository->findOneBy(['slug' => $slug]);
+
+        $comment = new Comment();
+
+        $form = $this->createForm(CommentType::class, $comment);
+
         return $this->render('figure/figure.html.twig', [
-            'datas' => $datas
+            'datas' => $datas,
+            'form' => $form->createView()
         ]);
     }
 
@@ -22,6 +30,7 @@ class FigureController extends AbstractController
     public function figureModification(FigureRepository $figureRepository, string $slug): Response
     {
         $datas = $figureRepository->findOneBy(['slug' => $slug]);
+
         return $this->render('figure/modification.html.twig', [
             'datas' => $datas
         ]);

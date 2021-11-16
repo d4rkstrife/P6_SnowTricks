@@ -6,13 +6,27 @@
 
 {% block body %}
 	<div class="trick-page-top">
-		{% for picture in datas.figurePictures %}
-			{% if picture.main %}
-				<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="trick-main-image">
+
+		{% if datas.figurePictures|length == 0 %}
+			<img src="{{ asset('image/default/default.jpg') }}" class="card-img-top">
+
+		{% elseif datas.figurePictures|length == 1 %}
+			<img src="{{ asset('image/upload/' ~ datas.figurePictures[0].fileName) }}" class="card-img-top">
+
+
+		{% elseif datas.figurePictures|length > 1 %}
+			{% set mainExist = false %}
+			{% for picture in datas.figurePictures %}
+				{% if picture.main %}
+					{% set mainExist = true %}
+					<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img-top">
+				{% endif %}
+			{% endfor %}
+			{% if mainExist == false %}
+				<img src="{{ asset('image/upload/' ~ datas.figurePictures[0].fileName) }}" class="card-img-top">
 			{% endif %}
-		{% else %}
-			<img src="{{ asset('image/default/default.jpg') }}">
-		{% endfor %}
+		{% endif %}
+
 		<h1>{{ datas.name | capitalize}}</h1>
 	</div>
 	<div class="trick-page-mid">
@@ -33,15 +47,16 @@
 		<p>{{ datas.description }}</p>
 	</div>
 	<div class="trick-comments">
-		<h2>{{"figure.comments"|trans}}</h2>
-		{% for comment in datas.comments %}
-			<div class="figure-comment">
-				<div class="figure-comment-details">
-					<p>{{ comment.user.name }}</p>
-					<p>{{ comment.date | date }}</p>
+		{{ form(form) }}
+			<h2>{{"figure.comments"|trans}}</h2>
+			{% for comment in datas.comments %}
+				<div class="figure-comment">
+					<div class="figure-comment-details">
+						<p>{{ comment.user.name }}</p>
+						<p>{{ comment.date | date("m/d/Y \\à G\\hi", "Europe/Paris") }}</p>
+					</div>
+					<p>{{ comment.content }}</p>
 				</div>
-				<p>{{ comment.content }}</p>
-			</div>
-		{% endfor %}
-	</div>
-{% endblock %}
+			{% endfor %}
+		</div>
+	{% endblock %}
