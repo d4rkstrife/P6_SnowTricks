@@ -20,7 +20,6 @@ class Paginator
         $this->requestStack = $requestStack;
         $this->page = $this->getPage();
         $this->itemsPerPage = $params->get('app.itemperpage');
-        $this->maxItems = 15;
     }
 
     public function numberOfItems(): int
@@ -37,8 +36,8 @@ class Paginator
             return 1;
         }
     }
-    public function numberOfPages(): int
+    public function numberOfPages(int $nbrItems): int
     {
-        return round($this->maxItems / $this->itemsPerPage, 0, PHP_ROUND_HALF_UP);
+        return ceil($nbrItems / $this->itemsPerPage);
     }
 }
