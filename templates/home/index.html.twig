@@ -45,7 +45,7 @@
 					{% endif %}
 
 					<div class="card-body">
-						<a href="{{path('figure', {slug: data.slug} )}}">{{ data.name|capitalize }}</a>
+						<a href="{{path('figure', {slug: data.slug, page: 1})}}">{{ data.name|capitalize }}</a>
 						{% if app.user %}
 							<div>
 								<a href="{{path('modification', {slug: data.slug} )}}"><img src="{{ asset('image/icons/penne.png') }}" class="icons"></a>
@@ -60,7 +60,7 @@
 					<button type="button" class="btn btn-light" style="height:50px">{{"button.more"|trans}}</button>
 				</a>
 			{% endif %}
-			<a href="{{path('home', {page: 1})}}">
+			<a href="{{path('home', {page: page})}}#figures_card">
 				<img src="{{asset('image/icons/arrow-up.png')}}" class="up-arrow">
 			</a>
 

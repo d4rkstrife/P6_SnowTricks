@@ -13,18 +13,23 @@ class Paginator
     private RequestStack $requestStack;
     private int $page;
     private int $itemsPerPage;
-    private int $maxItems;
+    private int $commentsPerPage;
 
     public function __construct(RequestStack $requestStack, ParameterBagInterface $params)
     {
         $this->requestStack = $requestStack;
         $this->page = $this->getPage();
         $this->itemsPerPage = $params->get('app.itemperpage');
+        $this->commentsPerPage = $params->get('app.commentperpage');
     }
 
     public function numberOfItems(): int
     {
         return $this->page * $this->itemsPerPage;
+    }
+    public function numberOfComments(): int
+    {
+        return $this->page * $this->commentsPerPage;
     }
 
     public function getPage(): int
@@ -36,8 +41,12 @@ class Paginator
             return 1;
         }
     }
-    public function numberOfPages(int $nbrItems): int
+    public function numberOfPages(int $nbrItems, string $type): int
     {
-        return ceil($nbrItems / $this->itemsPerPage);
+        if ($type === 'figure')
+            return ceil($nbrItems / $this->itemsPerPage);
+        elseif ($type === 'comments') {
+            return ceil($nbrItems / $this->commentsPerPage);
+        }
     }
 }

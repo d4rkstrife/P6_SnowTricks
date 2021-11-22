@@ -19,7 +19,7 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'datas' => $datas,
             'page' => $paginator->getPage(),
-            'maxPage' => $paginator->numberOfPages(count($figureRepository->findAll()))
+            'maxPage' => $paginator->numberOfPages(count($figureRepository->findAll()), 'figure')
         ]);
     }
 }
