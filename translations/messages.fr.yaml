@@ -12,4 +12,7 @@ button:
 figure:
   description: Description
   comments: Commentaires
+  addComment: Ajouter un commentaire
   moreComments : Plus de commentaires
+page:
+  newFigure: Nouvelle figure

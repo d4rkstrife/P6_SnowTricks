@@ -60,9 +60,11 @@
 					<button type="button" class="btn btn-light" style="height:50px">{{"button.more"|trans}}</button>
 				</a>
 			{% endif %}
-			<a href="{{path('home', {page: page})}}#figures_card">
-				<img src="{{asset('image/icons/arrow-up.png')}}" class="up-arrow">
-			</a>
+			{% if page > 1 %}
+				<a href="{{path('home', {page: page})}}#figures_card">
+					<img src="{{asset('image/icons/arrow-up.png')}}" class="up-arrow">
+				</a>
+			{% endif %}
 
 		</ul>
 	</div>

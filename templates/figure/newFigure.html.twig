@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modification
+{% block title %}
+	{{ "page.newFigure"|trans }}
 {% endblock %}
 
 {% block body %}
-	<h1>Modifier
-		{{ datas.name }}</h1>
+	<h1>Toto</h1>
 	{{ form_start(form) }}
 	{{ form_row(form.name)}}
 	{{ form_row(form.description)}}

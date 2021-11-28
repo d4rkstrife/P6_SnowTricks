@@ -14,12 +14,12 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(FigureRepository $figureRepository, Paginator $paginator): Response
     {
-        $datas = $figureRepository->findBy([], ['createdAt' => 'desc'],  $paginator->numberOfItems(), 0);
+        $datas = $figureRepository->findBy([], ['modifiedAt' => 'desc'],  $paginator->numberOfItems('app.itemperpage'), 0);
 
         return $this->render('home/index.html.twig', [
             'datas' => $datas,
             'page' => $paginator->getPage(),
-            'maxPage' => $paginator->numberOfPages(count($figureRepository->findAll()), 'figure')
+            'maxPage' => $paginator->numberOfPages(count($figureRepository->findAll()))
         ]);
     }
 }

@@ -2,30 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\Figure;
+use App\Entity\FigurePicture;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FigureModificationType extends AbstractType
+class FigurePictureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('createdAt')
-            ->add('modifiedAt')
-            ->add('slug')
-            ->add('autor')
-            ->add('figureGroup')
+            ->add('filename')
+            ->add('main')
+            ->add('relatedFigure')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Figure::class,
+            'data_class' => FigurePicture::class,
         ]);
     }
 }

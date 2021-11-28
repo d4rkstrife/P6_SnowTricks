@@ -57,7 +57,7 @@
 	</div>
 	<div class="trick-comments" id="comments">
 		{% if app.user %}
-
+			<h4>{{ "figure.addComment" | trans }}</h4>
 			{{ form_start(form) }}
 			{{ form_row(form.content) }}
 			<button type="submit">Valider</button>
