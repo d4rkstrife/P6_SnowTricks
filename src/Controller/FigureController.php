@@ -2,18 +2,22 @@
 
 namespace App\Controller;
 
-use App\Entity\Comment;
 use App\Entity\Figure;
+use App\Entity\Comment;
 use App\Form\FigureType;
 use App\Form\CommentType;
 use App\Service\Paginator;
+use App\Entity\FigurePicture;
+use App\Form\FigurePictureType;
 use App\Repository\FigureRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class FigureController extends AbstractController
 {
@@ -68,18 +72,45 @@ class FigureController extends AbstractController
     }
 
     #[Route('/newFigure', name: 'newFigure')]
-    public function newFigure(Request $request, EntityManagerInterface $em)
+    public function newFigure(Request $request, EntityManagerInterface $em, SluggerInterface $slugger)
     {
         $figure = new Figure();
+        $figurePicture = new FigurePicture();
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $pictureFile = $form->get('picture')->getData();
+            if ($pictureFile) {
+                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $pictureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('figurePicture_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'PictureFilename' property to store the file name
+                // instead of its contents
+                $figurePicture->setFilename($newFilename);
+            }
+
             $figure->setCreatedAt(date_create());
             $figure->setModifiedAt(date_create());
             $figure->setSlug($figure->getName());
             $figure->setAutor($this->getUser());
+            $figurePicture->setRelatedFigure($figure);
+            $figurePicture->setMain(true);
+
             $em->persist($figure);
+            $em->persist($figurePicture);
             $em->flush();
             return $this->redirectToRoute('figure', ['slug' => $figure->getSlug()]);
         }
