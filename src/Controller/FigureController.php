@@ -94,7 +94,7 @@ class FigureController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    // ... handle exception if something happens during file uploads
                 }
 
                 // updates the 'PictureFilename' property to store the file name
