@@ -141,6 +141,8 @@ polygon {
 .figure-comment-details {
     border-bottom: 1px solid rgba(0, 14, 0, .125);
     display: flex;
+    height: 76px;
+    padding: 3px;
 }
 
 .figure-comment-details p {
@@ -150,4 +152,9 @@ polygon {
 
 .up-arrow {
     height: 55px;
+}
+
+.profil-picture {
+    height: 70px;
+    border-radius: 35px;
 }

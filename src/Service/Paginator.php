@@ -13,19 +13,27 @@ class Paginator
     private RequestStack $requestStack;
     private int $page;
     private int $itemsPerPage;
-    private int $maxItems;
+    //private int $commentsPerPage;
+    private ParameterBagInterface $params;
 
     public function __construct(RequestStack $requestStack, ParameterBagInterface $params)
     {
+        $this->params = $params;
         $this->requestStack = $requestStack;
         $this->page = $this->getPage();
-        $this->itemsPerPage = $params->get('app.itemperpage');
+        //  $this->itemsPerPage = $params->get('app.itemperpage');
+        //$this->commentsPerPage = $params->get('app.commentperpage');
     }
 
-    public function numberOfItems(): int
+    public function numberOfItems(string $type): int
     {
+        $this->itemsPerPage = $this->params->get($type);
         return $this->page * $this->itemsPerPage;
     }
+    /*public function numberOfComments(): int
+    {
+        return $this->page * $this->commentsPerPage;
+    }*/
 
     public function getPage(): int
     {

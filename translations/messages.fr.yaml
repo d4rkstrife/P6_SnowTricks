@@ -4,6 +4,7 @@ nav:
   signUp: S'enregistrer
   username: Utilisateur
   newTrick: Nouvelle figure
+  logOut: Se déconnecter
 card:
   details: Détails
 button: 
@@ -11,3 +12,7 @@ button:
 figure:
   description: Description
   comments: Commentaires
+  addComment: Ajouter un commentaire
+  moreComments : Plus de commentaires
+page:
+  newFigure: Nouvelle figure

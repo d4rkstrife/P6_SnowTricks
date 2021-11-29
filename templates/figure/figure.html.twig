@@ -1,62 +1,87 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{ datas.name }}
+	{{ figure.name }}
 {% endblock %}
 
 {% block body %}
 	<div class="trick-page-top">
 
-		{% if datas.figurePictures|length == 0 %}
+		{% if figure.figurePictures|length == 0 %}
 			<img src="{{ asset('image/default/default.jpg') }}" class="card-img-top">
 
-		{% elseif datas.figurePictures|length == 1 %}
-			<img src="{{ asset('image/upload/' ~ datas.figurePictures[0].fileName) }}" class="card-img-top">
+		{% elseif figure.figurePictures|length == 1 %}
+			<img src="{{ asset('image/upload/' ~ figure.figurePictures[0].fileName) }}" class="card-img-top">
 
 
-		{% elseif datas.figurePictures|length > 1 %}
+		{% elseif figure.figurePictures|length > 1 %}
 			{% set mainExist = false %}
-			{% for picture in datas.figurePictures %}
+			{% for picture in figure.figurePictures %}
 				{% if picture.main %}
 					{% set mainExist = true %}
 					<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img-top">
 				{% endif %}
 			{% endfor %}
 			{% if mainExist == false %}
-				<img src="{{ asset('image/upload/' ~ datas.figurePictures[0].fileName) }}" class="card-img-top">
+				<img src="{{ asset('image/upload/' ~ figure.figurePictures[0].fileName) }}" class="card-img-top">
 			{% endif %}
 		{% endif %}
 
-		<h1>{{ datas.name | capitalize}}</h1>
+		<h1>{{ figure.name | capitalize}}</h1>
+		<h4>Groupe :
+			{{ figure.figureGroup.name }}</h4>
+		<p>Ajoutée le
+			{{ figure.createdAt | date("d/m/Y \\à G\\hi", "Europe/Paris")}}
+			par
+			{{ figure.autor.name }}</p>
+		{% if figure.modifiedAt %}
+			<p>Modifiée le
+				{{ figure.modifiedAt | date("d/m/Y \\à G\\hi", "Europe/Paris")}}</p>
+		{% endif %}
 	</div>
 	<div class="trick-page-mid">
-		{% for video in datas.relatedVideos %}
+		{% for video in figure.relatedVideos %}
 			{{ video.link | raw}}
 
 		{% endfor %}
-		{% for picture in datas.figurePictures %}
-			{% if picture.main is same as false %}
+		{% for picture in figure.figurePictures %}
 
-				<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="trick-small-image">
-			{% endif %}
+			<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="trick-small-image">
+
 
 		{% endfor %}
 	</div>
 	<div class="trick-description">
 		<h2>{{"figure.description"|trans}}</h2>
-		<p>{{ datas.description }}</p>
+		<p>{{ figure.description }}</p>
 	</div>
-	<div class="trick-comments">
-		{{ form(form) }}
-			<h2>{{"figure.comments"|trans}}</h2>
-			{% for comment in datas.comments %}
-				<div class="figure-comment">
-					<div class="figure-comment-details">
+	<div class="trick-comments" id="comments">
+		{% if app.user %}
+			<h4>{{ "figure.addComment" | trans }}</h4>
+			{{ form_start(form) }}
+			{{ form_row(form.content) }}
+			<button type="submit">Valider</button>
+			{{ form_end(form) }}
+
+		{% endif %}
+		<h2>{{"figure.comments"|trans}}</h2>
+		{% for comment in comments %}
+			<div class="figure-comment">
+				<div class="figure-comment-details">
+					<img src=" {{ asset('image/profile/' ~ comment.user.profilPicture.link)}} " class=" profil-picture">
+					<div class="figure-comment-details-user">
 						<p>{{ comment.user.name }}</p>
-						<p>{{ comment.date | date("m/d/Y \\à G\\hi", "Europe/Paris") }}</p>
+						<p>{{ comment.date | date("d/m/Y \\à G\\hi", "Europe/Paris") }}</p>
 					</div>
-					<p>{{ comment.content }}</p>
+
 				</div>
-			{% endfor %}
-		</div>
-	{% endblock %}
+				<p>{{ comment.content }}</p>
+			</div>
+		{% endfor %}
+		{% if page < maxPage %}
+			<a href="{{path('figure', {slug: figure.slug, page: page + 1 } )}}#comments">
+				<button type="button" class="btn btn-light" style="height:50px">{{"figure.moreComments"|trans}}</button>
+			</a>
+		{% endif %}
+	</div>
+{% endblock %}

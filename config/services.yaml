@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     app.itemperpage: 3
+    app.commentperpage: 3
+    figurePicture_directory: '%kernel.project_dir%/public/image/upload'
 
 services:
     # default configuration for services in *this* file

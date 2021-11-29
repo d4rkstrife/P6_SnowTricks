@@ -17,7 +17,7 @@ class ProfilPictureFixtures extends Fixture implements DependentFixtureInterface
                 "user" => "user1"
             ],
             [
-                "file" => "02w.jpg",
+                "file" => "02m.jpg",
                 "user" => "user2"
             ],
             [
@@ -41,7 +41,7 @@ class ProfilPictureFixtures extends Fixture implements DependentFixtureInterface
                 "user" => "user7"
             ],
             [
-                "file" => "08w.jpg",
+                "file" => "08m.jpg",
                 "user" => "user8"
             ],
             [

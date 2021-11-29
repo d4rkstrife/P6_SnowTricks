@@ -40,7 +40,10 @@
 							</li>
 						{% elseif app.user %}
 							<li class="nav-item">
-								<a class="nav-link" href="#">{{"nav.newTrick"|trans}}</a>
+								<a class="nav-link" href="{{path("newFigure")}}">{{"nav.newTrick"|trans}}</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{path("app_logout")}}">{{"nav.logOut"|trans}}</a>
 							</li>
 						{% endif %}
 					</ul>
