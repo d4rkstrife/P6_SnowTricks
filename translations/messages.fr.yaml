@@ -9,6 +9,7 @@ card:
   details: Détails
 button: 
   more: Plus
+  validate: Valider
 figure:
   description: Description
   comments: Commentaires

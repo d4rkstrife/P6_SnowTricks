@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class FigureType extends AbstractType
@@ -18,11 +19,11 @@ class FigureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextareaType::class, [
-                'label' => false
+            ->add('name', TextType::class, [
+                'label' => 'Nom'
             ])
             ->add('description', TextareaType::class, [
-                'label' => false
+                'label' => 'Description'
             ])
             ->add('figureGroup', EntityType::class, [
                 // looks for choices from this entity
@@ -46,15 +47,7 @@ class FigureType extends AbstractType
                 // make it optional so you don't have to re-upload the file
                 // every time you edit the Product details
                 'required' => false,
-
-                // unmapped fields can't define their validation using annotations
-                // in the associated entity, so you can use the PHP constraint classes
-                'constraints' => [
-                    new File([
-                        'maxSize' => '4000k',
-                        'mimeTypesMessage' => 'Please upload a valid document',
-                    ])
-                ],
+                'multiple' => true,
             ]);;
     }
 

@@ -5,14 +5,37 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Toto</h1>
-	{{ form_start(form) }}
-	{{ form_row(form.name)}}
-	{{ form_row(form.description)}}
-	{{ form_row(form.figureGroup)}}
-	{{ form_row(form.picture) }}
+	<h1>{{ "page.newFigure"|trans }}</h1>
+	<div class="form-container">
+		<div class="new-figure-form">
+			{{ form_start(form) }}
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					{{ form_label(form.name)}}
+					{{ form_widget(form.name, {'attr': {'class': 'form-control'}})}}
+					{{ form_errors(form.name)}}
+				</div>
+				<div class="form-group col-md-1">
+					{{ form_label(form.figureGroup) }}
+					{{ form_widget(form.figureGroup,  {'attr': {'class': 'form-control'}})}}
+					{{ form_errors(form.figureGroup)}}
+				</div>
 
-	<button type="submit">Valider</button>
+			</div>
+			<div class="custom-file">
+				{{ form_label(form.picture) }}
+				{{ form_widget(form.picture, {'attr': {'class': 'custom-file-input'}}) }}
+				{{ form_errors(form.picture)}}
+			</div>
+			<div class="form-add-description">
+				{{ form_label(form.description)}}
+				{{ form_widget(form.description, {'attr': {'class': 'form-control'}})}}
+				{{ form_errors(form.description)}}
+			</div>
 
-	{{ form_end(form) }}
-{% endblock %}
+
+			<button type="submit" class="btn btn-success">{{ "button.validate"|trans }}</button>
+
+			{{ form_end(form) }}
+		</div>
+	{% endblock %}
