@@ -158,3 +158,13 @@ polygon {
     height: 70px;
     border-radius: 35px;
 }
+
+.form-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.new-figure-form {
+    width: 80%;
+}
