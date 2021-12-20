@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=FigureRepository::class)
  * @UniqueEntity("name")
+ * @UniqueEntity("slug")
  */
 class Figure
 {

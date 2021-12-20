@@ -8,9 +8,11 @@ use App\Form\FigureType;
 use App\Form\CommentType;
 use App\Service\Paginator;
 use App\Entity\FigurePicture;
+use App\Entity\FigureVideo;
 use App\Repository\FigureRepository;
 use App\Repository\CommentRepository;
 use App\Repository\FigurePictureRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,7 +69,7 @@ class FigureController extends AbstractController
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $pictureFiles = $form->get('picture')->getData();
             foreach ($pictureFiles as $pictureFile) {
 
@@ -97,7 +99,7 @@ class FigureController extends AbstractController
                 }
             }
 
-
+            $figure->setSlug($slugger->slug($figure->getName()));
             $figure->setModifiedAt(date_create());
             $em->flush();
 
@@ -116,6 +118,8 @@ class FigureController extends AbstractController
     public function newFigure(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash)
     {
         $figure = new Figure();
+
+
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
 
@@ -152,7 +156,7 @@ class FigureController extends AbstractController
             }
             $figure->setCreatedAt(date_create());
             $figure->setModifiedAt(date_create());
-            $figure->setSlug($figure->getName());
+            $figure->setSlug($slugger->slug($figure->getName()));
             $figure->setAutor($this->getUser());
 
 
@@ -168,15 +172,31 @@ class FigureController extends AbstractController
     }
 
     #[Route('/delete/{pictureId}/{figureId}', name: 'deletePicture')]
-    public function deletePicture(Figure $figureId, FigurePicture $pictureId, FigurePictureRepository $figurePictureRepo, FigureRepository $figureRepo, EntityManagerInterface $em)
+    public function deletePicture(Figure $figureId, FileSystem $fileSystem, FigurePicture $pictureId, FigurePictureRepository $figurePictureRepo, FigureRepository $figureRepo, EntityManagerInterface $em)
     {
         $picture = $figurePictureRepo->findOneBy(['id' => $pictureId]);
         $figure = $figureRepo->findOneBy(['id' => $figureId]);
         $figure->removeFigurePicture($picture);
-        $fileSystem = new Filesystem;
-        $fileSystem->remove($picture->getFilename());
-
+        $fileSystem->remove(
+            $this->getParameter('figurePicture_directory') . "/" . $picture->getFilename()
+        );
         $em->flush();
+
+        return $this->redirectToRoute('modification', ['slug' => $figure->getSlug()]);
+    }
+
+    #[Route('/mainPicture/{pictureId}/{figureId}', name: 'makePictureMain')]
+    public function makePictureMain(Figure $figureId, FigurePicture $pictureId, FigurePictureRepository $figurePictureRepo, FigureRepository $figureRepo, EntityManagerInterface $em)
+    {
+        $figure = $figureRepo->findOneBy(['id' => $figureId]);
+        $pictures = $figure->getFigurePictures();
+        foreach ($pictures as $picture) {
+            $picture->setMain(false);
+        }
+        $mainPicture = $figurePictureRepo->findOneBy(['id' => $pictureId]);
+        $mainPicture->setMain(true);
+        $em->flush();
+
 
         return $this->redirectToRoute('modification', ['slug' => $figure->getSlug()]);
     }

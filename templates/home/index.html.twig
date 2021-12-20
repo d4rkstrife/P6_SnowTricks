@@ -20,7 +20,13 @@
 				</div>
 			</a>
 		</div>
+		{% for flashMessage in app.session.flashbag.get('success') %}
+
+			<h5 class="success">{{ flashMessage }}</h5>
+
+		{% endfor %}
 		<ul class="figure-card-list" id="figures_card">
+
 			{% for data in datas %}
 				<div class="card" style="width: 18rem;">
 

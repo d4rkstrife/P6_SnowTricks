@@ -4,8 +4,10 @@
 {% endblock %}
 
 {% block body %}
+
 	<h1>Modifier
 		{{ figure.name }}</h1>
+
 	<div class="form-container">
 		<div class="new-figure-form">
 			{{ form_start(form) }}
@@ -38,14 +40,20 @@
 				<div class="card" style="width:35%">
 					<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img-top">
 					<a href="{{path('deletePicture', {pictureId: picture.id, figureId: figure.id}) }}">
-						<button type="button" class="btn btn-danger">Supprimer</button>
+						<button type="button" class="btn btn-danger">{{ "modifiateFigure.delete"|trans }}</button>
 					</a>
+
+					{% if picture.main != true %}
+						<a href="{{path('makePictureMain', {pictureId: picture.id, figureId: figure.id}) }}">
+							<button type="button" class="btn btn-success">{{ "modifiateFigure.makeMain"|trans }}</button>
+						</a>
+					{% endif %}
 				</div>
 			{% endfor %}
 
 
 			<button type="submit" class="btn btn-success">{{ "button.validate"|trans }}</button>
 
-			{{ form_end(form, {render_rest: false}) }}
+			{{ form_end(form) }}
 		</div>
 	{% endblock %}
