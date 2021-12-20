@@ -4,11 +4,13 @@
 	{{ "page.newFigure"|trans }}
 {% endblock %}
 
+
 {% block body %}
 	<h1>{{ "page.newFigure"|trans }}</h1>
 	<div class="form-container">
 		<div class="new-figure-form">
 			{{ form_start(form) }}
+			{{ form_errors(form)}}
 			<div class="form-row">
 				<div class="form-group col-md-6">
 					{{ form_label(form.name)}}
@@ -17,7 +19,7 @@
 				</div>
 				<div class="form-group col-md-1">
 					{{ form_label(form.figureGroup) }}
-					{{ form_widget(form.figureGroup,  {'attr': {'class': 'form-control'}})}}
+					{{ form_widget(form.figureGroup,  {'attr': {'class': 'form-control'}}) }}
 					{{ form_errors(form.figureGroup)}}
 				</div>
 
@@ -29,12 +31,18 @@
 			</div>
 			<div class="form-add-description">
 				{{ form_label(form.description)}}
-				{{ form_widget(form.description, {'attr': {'class': 'form-control'}})}}
+				{{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
 				{{ form_errors(form.description)}}
 			</div>
-
+			<ul>
+				{% for video in form.relatedVideos %}
+					<li>
+						{{ dump(video) }}</li>
+				{% endfor %}
+			</ul>
 
 			<button type="submit" class="btn btn-success">{{ "button.validate"|trans }}</button>
+
 
 			{{ form_end(form) }}
 		</div>

@@ -5,6 +5,11 @@
 {% endblock %}
 
 {% block body %}
+	{% for flashMessage in app.session.flashbag.get('success') %}
+
+		<h5 class="success">{{ flashMessage }}</h5>
+
+	{% endfor %}
 	<div class="trick-page-top">
 
 		{% if figure.figurePictures|length == 0 %}
