@@ -49,11 +49,11 @@ class FigureType extends AbstractType
                 'required' => false,
                 'multiple' => true,
             ])
-            /*   ->add('relatedVideos', CollectionType::class, [
+            ->add('relatedVideos', CollectionType::class, [
                 'entry_type' => FigureVideoType::class,
                 'entry_options' => ['label' => false],
-                //'allow_add' => true,
-            ])*/;
+                'allow_add' => true,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

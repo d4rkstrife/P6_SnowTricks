@@ -15,8 +15,7 @@ class FigureVideoType extends AbstractType
         $builder
             ->add('link',  TextType::class, [
                 'label' => 'Lien'
-            ])
-            ->add('relatedFigure');
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

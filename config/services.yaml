@@ -7,6 +7,7 @@ parameters:
     app.itemperpage: 3
     app.commentperpage: 3
     figurePicture_directory: '%kernel.project_dir%/public/image/upload'
+    profilPicture_directory: '%kernel.project_dir%/public/image/profile'
 
 services:
     # default configuration for services in *this* file
