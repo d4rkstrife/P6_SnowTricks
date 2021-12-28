@@ -55,7 +55,7 @@
 						{% if app.user %}
 							<div>
 								<a href="{{path('modification', {slug: data.slug} )}}"><img src="{{ asset('image/icons/penne.png') }}" class="icons"></a>
-								<a href="#"><img src="{{ asset('image/icons/poubelle.png') }}" class="icons"></a>
+								<a href="{{path('deleteFigure', {figure: data.id})}}"><img src="{{ asset('image/icons/poubelle.png') }}" class="icons"></a>
 							</div>
 						{% endif %}
 					</div>
