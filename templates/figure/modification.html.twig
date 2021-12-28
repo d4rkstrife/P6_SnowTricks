@@ -44,7 +44,7 @@
 					</a>
 
 					{% if picture.main != true %}
-						<a href="{{path('makePictureMain', {pictureId: picture.id, figureId: figure.id}) }}">
+						<a href="{{path('makePictureMain', {picture: picture.id}) }}">
 							<button type="button" class="btn btn-success">{{ "modifiateFigure.makeMain"|trans }}</button>
 						</a>
 					{% endif %}

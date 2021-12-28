@@ -185,16 +185,13 @@ class FigureController extends AbstractController
         return $this->redirectToRoute('modification', ['slug' => $figure->getSlug()]);
     }
 
-    #[Route('/mainPicture/{pictureId}/{figureId}', name: 'makePictureMain')]
-    public function makePictureMain(Figure $figureId, FigurePicture $pictureId, FigurePictureRepository $figurePictureRepo, FigureRepository $figureRepo, EntityManagerInterface $em)
+    #[Route('/mainPicture/{picture}', name: 'makePictureMain')]
+    public function makePictureMain(FigurePicture $picture, EntityManagerInterface $em)
     {
-        $figure = $figureRepo->findOneBy(['id' => $figureId]);
-        $pictures = $figure->getFigurePictures();
-        foreach ($pictures as $picture) {
-            $picture->setMain(false);
+        $figure = $picture->getRelatedFigure();
+        foreach ($figure->getFigurePictures() as $image) {
+            $image->setMain($picture->getId() === $image->getId());
         }
-        $mainPicture = $figurePictureRepo->findOneBy(['id' => $pictureId]);
-        $mainPicture->setMain(true);
         $em->flush();
 
 

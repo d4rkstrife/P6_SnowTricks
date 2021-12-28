@@ -32,6 +32,7 @@ class Figure
      */
     private $name;
 
+
     /**
      * @ORM\Column(type="text")
      */
@@ -78,6 +79,7 @@ class Figure
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $slug;
+
 
     public function __construct()
     {
