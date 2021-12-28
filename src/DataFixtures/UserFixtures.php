@@ -22,7 +22,7 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         for ($i = 1; $i <= 10; $i++) {
-            $password = "password";
+            $password = "password1";
             $user = new User();
             $user->setName("user" . $i);
             $user->setEmail("test" . $i . "@mail.com");
