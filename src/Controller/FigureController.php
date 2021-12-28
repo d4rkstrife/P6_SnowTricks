@@ -180,6 +180,7 @@ class FigureController extends AbstractController
         $fileSystem->remove(
             $this->getParameter('figurePicture_directory') . "/" . $picture->getFilename()
         );
+
         $em->flush();
 
         return $this->redirectToRoute('modification', ['slug' => $figure->getSlug()]);
@@ -196,5 +197,29 @@ class FigureController extends AbstractController
 
 
         return $this->redirectToRoute('modification', ['slug' => $figure->getSlug()]);
+    }
+
+    #[Route('deleteFigure/{figure}', name: 'deleteFigure')]
+    public function deleteFigure(Figure $figure, EntityManagerInterface $em, Filesystem $fileSystem)
+    {
+        $comments = $figure->getComments();
+        $pictures = $figure->getFigurePictures();
+        $videos = $figure->getRelatedVideos();
+        foreach ($comments as $comment) {
+            $figure->removeComment($comment);
+        }
+        foreach ($pictures as $picture) {
+            $figure->removeFigurePicture($picture);
+            $fileSystem->remove(
+                $this->getParameter('figurePicture_directory') . "/" . $picture->getFilename()
+            );
+        }
+        foreach ($videos as $video) {
+            $figure->removeRelatedVideo($video);
+        }
+        $em->remove($figure);
+        $em->flush();
+
+        return $this->redirectToRoute('home');
     }
 }
