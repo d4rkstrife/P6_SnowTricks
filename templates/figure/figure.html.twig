@@ -73,7 +73,9 @@
 		{% for comment in comments %}
 			<div class="figure-comment">
 				<div class="figure-comment-details">
-					<img src=" {{ asset('image/profile/' ~ comment.user.profilPicture.link)}} " class=" profil-picture">
+					{% if comment.user.profilPicture %}
+						<img src=" {{ asset('image/profile/' ~ comment.user.profilPicture.link)}} " class=" profil-picture">
+					{% endif %}
 					<div class="figure-comment-details-user">
 						<p>{{ comment.user.name }}</p>
 						<p>{{ comment.date | date("d/m/Y \\à G\\hi", "Europe/Paris") }}</p>

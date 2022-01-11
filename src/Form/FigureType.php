@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -25,6 +26,9 @@ class FigureType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => 'Description'
             ])
+         /*   ->add('slug', TextType::class, [
+                'label' => 'slug'
+            ])*/
             ->add('figureGroup', EntityType::class, [
                 // looks for choices from this entity
                 'class' => FigureGroup::class,

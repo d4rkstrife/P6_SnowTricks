@@ -21,8 +21,6 @@ class Paginator
         $this->params = $params;
         $this->requestStack = $requestStack;
         $this->page = $this->getPage();
-        //  $this->itemsPerPage = $params->get('app.itemperpage');
-        //$this->commentsPerPage = $params->get('app.commentperpage');
     }
 
     public function numberOfItems(string $type): int
