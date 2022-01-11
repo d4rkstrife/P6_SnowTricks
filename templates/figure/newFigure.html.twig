@@ -59,6 +59,11 @@ collectionHolder.dataset.index ++;
 
 
 			<button type="submit" class="btn btn-success">{{ "button.validate"|trans }}</button>
+			{% for flashMessage in app.session.flashbag.get('error') %}
+
+				<h5 class="error">{{ flashMessage }}</h5>
+
+			{% endfor %}
 
 
 			{{ form_end(form) }}

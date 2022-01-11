@@ -6,6 +6,7 @@
 
 {% block body %}
 	<div>
+
 		<div id="index-img">
 			<img src="{{ asset('image/man-g609b0aeff_1920.jpg') }}" class="img-fluid" id="index-fullscreen-img">
 			<a href="#figures_card" class="arrow-down">
@@ -30,6 +31,7 @@
 			{% for data in datas %}
 				<div class="card" style="width: 18rem;">
 
+
 					{% if data.figurePictures|length == 0 %}
 						<img src="{{ asset('image/default/default.jpg') }}" class="card-img-top">
 
@@ -51,7 +53,8 @@
 					{% endif %}
 
 					<div class="card-body">
-						<a href="{{path('figure', {slug: data.slug, page: 1})}}">{{ data.name|capitalize }}</a>
+
+						<a href="{{path('figure', {slug: data.slug})}}">{{ data.name|capitalize }}</a>
 						{% if app.user %}
 							<div>
 								<a href="{{path('modification', {slug: data.slug} )}}"><img src="{{ asset('image/icons/penne.png') }}" class="icons"></a>
