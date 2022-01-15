@@ -10,12 +10,15 @@ card:
 button: 
   more: Plus
   validate: Valider
+  cancel: Annuler
+  delete: Supprimer
 figure:
   name: nom
   description: Description
   comments: Commentaires
   addComment: Ajouter un commentaire
   moreComments : Plus de commentaires
+  deleteMessage: Etes-vous sûr de vouloir supprimer cette figure?
 page:
   newFigure: Nouvelle figure
 newFigure:

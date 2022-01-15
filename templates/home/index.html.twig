@@ -58,8 +58,34 @@
 						<a href="{{path('figure', {slug: data.slug})}}">{{ data.name|capitalize }}</a>
 						{% if app.user %}
 							<div>
-								<a href="{{path('modification', {slug: data.slug} )}}"><img src="{{ asset('image/icons/penne.png') }}" class="icons"></a>
-								<a href="{{path('deleteFigure', {figure: data.id})}}"><img src="{{ asset('image/icons/poubelle.png') }}" class="icons"></a>
+								<a href="{{path('modification', {slug: data.slug} )}}">
+									<button type="button" class="btn btn-light figure_button"><img src="{{ asset('image/icons/penne.png') }}" class="icons"></button>
+								</a>
+								<!-- Button trigger modal -->
+								<button type="button" class="btn btn-light  figure_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+									<img src="{{ asset('image/icons/poubelle.png') }}" class="icons">
+								</button>
+
+								<!-- Modal -->
+								<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">{{ data.name }}</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												{{ 'figure.deleteMessage'|trans }}
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'button.cancel'|trans }}</button>
+												<a href="{{path('deleteFigure', {figure: data.id})}}">
+													<button type="button" class="btn btn-primary">{{ 'button.delete'|trans }}</button>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						{% endif %}
 					</div>

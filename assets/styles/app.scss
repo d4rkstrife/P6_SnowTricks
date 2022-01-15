@@ -1,3 +1,4 @@
+@import "~bootstrap/scss/bootstrap";
 .figure-card-list {
     margin: 25px;
     display: flex;
@@ -95,6 +96,10 @@ polygon {
 .card-body {
     display: flex;
     justify-content: space-between;
+}
+
+.figure_button {
+    padding: 0;
 }
 
 .trick-page-top {
