@@ -12,7 +12,7 @@ use App\Entity\FigureVideo;
 use App\Repository\FigureRepository;
 use App\Repository\CommentRepository;
 use App\Repository\FigurePictureRepository;
-use Doctrine\ORM\EntityManager;
+use App\Service\PictureService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,7 +55,7 @@ class FigureController extends AbstractController
     }
 
     #[Route('/modification/{slug}', name: 'modification')]
-    public function figureModification(FigureRepository $figureRepository, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, string $slug): Response
+    public function figureModification(FigureRepository $figureRepository, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, string $slug, PictureService $pictureService): Response
     {
         $figure = $figureRepository->findOneBy(['slug' => $slug]);
         $figurePictures = $figure->getFigurePictures();
@@ -74,20 +74,8 @@ class FigureController extends AbstractController
             foreach ($pictureFiles as $pictureFile) {
 
 
-                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $pictureFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $pictureFile->move(
-                        $this->getParameter('figurePicture_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file uploads
-                }
+                $newFilename = $pictureService->renamePicture($pictureFile);
+                $pictureService->uploadPicture($pictureFile, $this->getParameter('figurePicture_directory'), $newFilename);
 
 
                 $figurePicture = new FigurePicture();
@@ -115,7 +103,7 @@ class FigureController extends AbstractController
 
 
     #[Route('/newFigure', name: 'newFigure')]
-    public function newFigure(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, FigureRepository $figureRepository)
+    public function newFigure(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, PictureService $pictureService)
     {
         $figure = new Figure();
 
@@ -130,21 +118,8 @@ class FigureController extends AbstractController
             $main = true;
             foreach ($pictureFiles as $pictureFile) {
 
-
-                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $pictureFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $pictureFile->move(
-                        $this->getParameter('figurePicture_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file uploads
-                }
+                $newFilename = $pictureService->renamePicture($pictureFile);
+                $pictureService->uploadPicture($pictureFile, $this->getParameter('figurePicture_directory'), $newFilename);
 
 
                 $figurePicture = new FigurePicture();

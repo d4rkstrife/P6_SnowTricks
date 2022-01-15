@@ -13,7 +13,6 @@ class Paginator
     private RequestStack $requestStack;
     private int $page;
     private int $itemsPerPage;
-    //private int $commentsPerPage;
     private ParameterBagInterface $params;
 
     public function __construct(RequestStack $requestStack, ParameterBagInterface $params)
