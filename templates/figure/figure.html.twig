@@ -75,6 +75,8 @@
 				<div class="figure-comment-details">
 					{% if comment.user.profilPicture %}
 						<img src=" {{ asset('image/profile/' ~ comment.user.profilPicture.link)}} " class=" profil-picture">
+					{% else %}
+						<img src="{{ asset('image/default/Image_not_available.png') }}" class="profil-picture">
 					{% endif %}
 					<div class="figure-comment-details-user">
 						<p>{{ comment.user.name }}</p>

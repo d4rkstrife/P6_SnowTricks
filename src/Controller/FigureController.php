@@ -70,46 +70,41 @@ class FigureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $count = count($figureRepository->findBy(['slug' => $slugger->slug($figure->getName())]));
-            // dd($count);
-            if ($count === 0) {
-                $pictureFiles = $form->get('picture')->getData();
-                foreach ($pictureFiles as $pictureFile) {
+            $pictureFiles = $form->get('picture')->getData();
+            foreach ($pictureFiles as $pictureFile) {
 
 
-                    $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $pictureFile->guessExtension();
+                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $pictureFile->guessExtension();
 
-                    // Move the file to the directory where brochures are stored
-                    try {
-                        $pictureFile->move(
-                            $this->getParameter('figurePicture_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file uploads
-                    }
-
-
-                    $figurePicture = new FigurePicture();
-                    $figurePicture->setFilename($newFilename);
-                    $figurePicture->setMain($main);
-                    $figure->addFigurePicture($figurePicture);
-                    if ($main === true) {
-                        $main = false;
-                    }
+                // Move the file to the directory where brochures are stored
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('figurePicture_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file uploads
                 }
 
-                $figure->setSlug($slugger->slug($figure->getName()));
-                $figure->setModifiedAt(date_create());
-                $em->flush();
 
-                $flash->add('success', 'Modifié avec succès');
-                return $this->redirectToRoute('figure', ['slug' => $figure->getSlug()]);
+                $figurePicture = new FigurePicture();
+                $figurePicture->setFilename($newFilename);
+                $figurePicture->setMain($main);
+                $figure->addFigurePicture($figurePicture);
+                if ($main === true) {
+                    $main = false;
+                }
             }
-            $flash->add('error', 'Le nom de figure ressemble déjà à une figure existante');
+
+            $figure->setSlug($slugger->slug($figure->getName()));
+            $figure->setModifiedAt(date_create());
+            $em->flush();
+
+            $flash->add('success', 'Modifié avec succès');
+            return $this->redirectToRoute('figure', ['slug' => $figure->getSlug()]);
         }
 
         return $this->render('figure/modification.html.twig', [
@@ -129,51 +124,48 @@ class FigureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $count = count($figureRepository->findBy(['slug' => $slugger->slug($figure->getName())]));
-            if ($count === 0) {
-                $pictureFiles = $form->get('picture')->getData();
 
-                $main = true;
-                foreach ($pictureFiles as $pictureFile) {
+            $pictureFiles = $form->get('picture')->getData();
 
-
-                    $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $pictureFile->guessExtension();
-
-                    // Move the file to the directory where brochures are stored
-                    try {
-                        $pictureFile->move(
-                            $this->getParameter('figurePicture_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file uploads
-                    }
+            $main = true;
+            foreach ($pictureFiles as $pictureFile) {
 
 
-                    $figurePicture = new FigurePicture();
-                    $figurePicture->setFilename($newFilename);
-                    $figurePicture->setMain($main);
-                    $figure->addFigurePicture($figurePicture);
-                    if ($main === true) {
-                        $main = false;
-                    }
+                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $pictureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('figurePicture_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file uploads
                 }
-                $figure->setCreatedAt(date_create());
-                $figure->setModifiedAt(date_create());
-                $figure->setSlug($slugger->slug($figure->getName()));
-                $figure->setAutor($this->getUser());
 
 
-                $em->persist($figure);
-
-                $em->flush();
-                $flash->add('success', 'Ajouté avec succès');
-                return $this->redirectToRoute('home');
+                $figurePicture = new FigurePicture();
+                $figurePicture->setFilename($newFilename);
+                $figurePicture->setMain($main);
+                $figure->addFigurePicture($figurePicture);
+                if ($main === true) {
+                    $main = false;
+                }
             }
-            $flash->add('error', 'Le nom de figure ressemble déjà à une figure existante');
+            $figure->setCreatedAt(date_create());
+            $figure->setModifiedAt(date_create());
+            $figure->setSlug($slugger->slug($figure->getName()));
+            $figure->setAutor($this->getUser());
+
+
+            $em->persist($figure);
+
+            $em->flush();
+            $flash->add('success', 'Ajouté avec succès');
+            return $this->redirectToRoute('home');
         }
         return $this->render('figure/newFigure.html.twig', [
             'form' => $form->createView()

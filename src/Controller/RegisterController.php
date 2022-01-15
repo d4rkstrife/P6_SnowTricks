@@ -57,14 +57,14 @@ class RegisterController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $email = (new Email())
+            /* $email = (new Email())
                 ->from('hello@example.com')
                 ->to($user->getEmail())
                 ->subject('Time for Symfony Mailer!')
                 ->text('Sending emails is fun again!')
                 ->html('<p>See Twig integration for better HTML integration!</p>');
 
-            $mailer->send($email);
+            $mailer->send($email);*/
             return $this->redirectToRoute('home');
         }
 

@@ -31,6 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
      * @Assert\NotNull()
+     * @Assert\Regex("/^[a-z]+$/i")
      */
     private $name;
 
@@ -38,6 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank()
      * @Assert\NotNull()
+     
      */
     private $email;
 
