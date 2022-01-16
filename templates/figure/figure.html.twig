@@ -11,6 +11,38 @@
 
 	{% endfor %}
 	<div class="trick-page-top">
+		{% if app.user %}
+			<div>
+				<a href="{{path('modification', {slug: figure.slug} )}}">
+					<button type="button" class="btn btn-light figure_button"><img src="{{ asset('image/icons/penne.png') }}" class="icons"></button>
+				</a>
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-light  figure_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+					<img src="{{ asset('image/icons/poubelle.png') }}" class="icons">
+				</button>
+
+				<!-- Modal -->
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">{{ figure.name }}</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								{{ 'figure.deleteMessage'|trans }}
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'button.cancel'|trans }}</button>
+								<a href="{{path('deleteFigure', {figure: figure.id})}}">
+									<button type="button" class="btn btn-primary">{{ 'button.delete'|trans }}</button>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
 
 		{% if figure.figurePictures|length == 0 %}
 			<img src="{{ asset('image/default/default.jpg') }}" class="card-img-top">
@@ -33,16 +65,7 @@
 		{% endif %}
 
 		<h1>{{ figure.name | capitalize}}</h1>
-		<h4>Groupe :
-			{{ figure.figureGroup.name }}</h4>
-		<p>Ajoutée le
-			{{ figure.createdAt | date("d/m/Y \\à G\\hi", "Europe/Paris")}}
-			par
-			{{ figure.autor.name }}</p>
-		{% if figure.modifiedAt %}
-			<p>Modifiée le
-				{{ figure.modifiedAt | date("d/m/Y \\à G\\hi", "Europe/Paris")}}</p>
-		{% endif %}
+
 	</div>
 	<div class="trick-page-mid">
 		{% for video in figure.relatedVideos %}
@@ -60,14 +83,28 @@
 		<h2>{{"figure.description"|trans}}</h2>
 		<p>{{ figure.description }}</p>
 	</div>
+	<hr>
+	<div class="figure_informations">
+		<h4>Groupe :
+			{{ figure.figureGroup.name }}</h4>
+		<p>Ajoutée le
+			{{ figure.createdAt | date("d/m/Y \\à G\\hi", "Europe/Paris")}}
+			par
+			{{ figure.autor.name }}</p>
+		{% if date(figure.modifiedAt) > date(figure.createdAt) %}
+			<p>Modifiée le
+				{{ figure.modifiedAt | date("d/m/Y \\à G\\hi", "Europe/Paris")}}</p>
+		{% endif %}
+	</div>
 	<div class="trick-comments" id="comments">
 		{% if app.user %}
+			<hr>
 			<h4>{{ "figure.addComment" | trans }}</h4>
 			{{ form_start(form) }}
 			{{ form_row(form.content) }}
 			<button type="submit">Valider</button>
 			{{ form_end(form) }}
-
+			<hr>
 		{% endif %}
 		<h2>{{"figure.comments"|trans}}</h2>
 		{% for comment in comments %}

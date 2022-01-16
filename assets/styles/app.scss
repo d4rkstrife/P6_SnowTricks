@@ -132,6 +132,11 @@ polygon {
     text-align: center;
 }
 
+.figure_informations {
+    display: flex;
+    justify-content: space-around;
+}
+
 .trick-comments {
     margin: 5vh 15% 5vh 15%;
     text-align: center;

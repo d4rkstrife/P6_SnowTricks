@@ -73,14 +73,8 @@ class FigureController extends AbstractController
             $pictureFiles = $form->get('picture')->getData();
             foreach ($pictureFiles as $pictureFile) {
 
+                $figurePicture = $pictureService->uploadPicture($pictureFile, $main);
 
-                $newFilename = $pictureService->renamePicture($pictureFile);
-                $pictureService->uploadPicture($pictureFile, $this->getParameter('figurePicture_directory'), $newFilename);
-
-
-                $figurePicture = new FigurePicture();
-                $figurePicture->setFilename($newFilename);
-                $figurePicture->setMain($main);
                 $figure->addFigurePicture($figurePicture);
                 if ($main === true) {
                     $main = false;
@@ -117,14 +111,8 @@ class FigureController extends AbstractController
 
             $main = true;
             foreach ($pictureFiles as $pictureFile) {
+                $figurePicture = $pictureService->uploadPicture($pictureFile, $main);
 
-                $newFilename = $pictureService->renamePicture($pictureFile);
-                $pictureService->uploadPicture($pictureFile, $this->getParameter('figurePicture_directory'), $newFilename);
-
-
-                $figurePicture = new FigurePicture();
-                $figurePicture->setFilename($newFilename);
-                $figurePicture->setMain($main);
                 $figure->addFigurePicture($figurePicture);
                 if ($main === true) {
                     $main = false;

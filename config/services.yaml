@@ -6,13 +6,15 @@
 parameters:
     app.itemperpage: 3
     app.commentperpage: 3
-    figurePicture_directory: '%kernel.project_dir%/public/image/upload'
+    figurePictureDirectory: '%kernel.project_dir%/public/image/upload'
     profilPicture_directory: '%kernel.project_dir%/public/image/profile'
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
+        bind:
+            $figurePictureDirectory: '%figurePictureDirectory%'
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
     # makes classes in src/ available to be used as services
