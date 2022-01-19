@@ -1,3 +1,4 @@
+@import "~bootstrap/scss/bootstrap";
 .figure-card-list {
     margin: 25px;
     display: flex;
@@ -88,7 +89,6 @@ polygon {
     border-bottom: 1px solid rgba(0, 14, 0, .125);
 }
 
-
 .icons {
     height: 15px;
 }
@@ -96,6 +96,10 @@ polygon {
 .card-body {
     display: flex;
     justify-content: space-between;
+}
+
+.figure_button {
+    padding: 0;
 }
 
 .trick-page-top {
@@ -128,6 +132,11 @@ polygon {
     text-align: center;
 }
 
+.figure_informations {
+    display: flex;
+    justify-content: space-around;
+}
+
 .trick-comments {
     margin: 5vh 15% 5vh 15%;
     text-align: center;
@@ -157,6 +166,7 @@ polygon {
 
 .profil-picture {
     height: 70px;
+    width: 70px;
     border-radius: 35px;
 }
 

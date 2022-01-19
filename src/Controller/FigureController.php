@@ -12,7 +12,7 @@ use App\Entity\FigureVideo;
 use App\Repository\FigureRepository;
 use App\Repository\CommentRepository;
 use App\Repository\FigurePictureRepository;
-use Doctrine\ORM\EntityManager;
+use App\Service\PictureService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,7 +55,7 @@ class FigureController extends AbstractController
     }
 
     #[Route('/modification/{slug}', name: 'modification')]
-    public function figureModification(FigureRepository $figureRepository, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, string $slug): Response
+    public function figureModification(FigureRepository $figureRepository, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, string $slug, PictureService $pictureService): Response
     {
         $figure = $figureRepository->findOneBy(['slug' => $slug]);
         $figurePictures = $figure->getFigurePictures();
@@ -70,46 +70,23 @@ class FigureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $count = count($figureRepository->findBy(['slug' => $slugger->slug($figure->getName())]));
-            // dd($count);
-            if ($count === 0) {
-                $pictureFiles = $form->get('picture')->getData();
-                foreach ($pictureFiles as $pictureFile) {
+            $pictureFiles = $form->get('picture')->getData();
+            foreach ($pictureFiles as $pictureFile) {
 
+                $figurePicture = $pictureService->uploadPicture($pictureFile, $main);
 
-                    $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $pictureFile->guessExtension();
-
-                    // Move the file to the directory where brochures are stored
-                    try {
-                        $pictureFile->move(
-                            $this->getParameter('figurePicture_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file uploads
-                    }
-
-
-                    $figurePicture = new FigurePicture();
-                    $figurePicture->setFilename($newFilename);
-                    $figurePicture->setMain($main);
-                    $figure->addFigurePicture($figurePicture);
-                    if ($main === true) {
-                        $main = false;
-                    }
+                $figure->addFigurePicture($figurePicture);
+                if ($main === true) {
+                    $main = false;
                 }
-
-                $figure->setSlug($slugger->slug($figure->getName()));
-                $figure->setModifiedAt(date_create());
-                $em->flush();
-
-                $flash->add('success', 'Modifié avec succès');
-                return $this->redirectToRoute('figure', ['slug' => $figure->getSlug()]);
             }
-            $flash->add('error', 'Le nom de figure ressemble déjà à une figure existante');
+
+            $figure->setSlug($slugger->slug($figure->getName()));
+            $figure->setModifiedAt(date_create());
+            $em->flush();
+
+            $flash->add('success', 'Modifié avec succès');
+            return $this->redirectToRoute('figure', ['slug' => $figure->getSlug()]);
         }
 
         return $this->render('figure/modification.html.twig', [
@@ -120,7 +97,7 @@ class FigureController extends AbstractController
 
 
     #[Route('/newFigure', name: 'newFigure')]
-    public function newFigure(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, FigureRepository $figureRepository)
+    public function newFigure(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, PictureService $pictureService)
     {
         $figure = new Figure();
 
@@ -129,51 +106,29 @@ class FigureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $count = count($figureRepository->findBy(['slug' => $slugger->slug($figure->getName())]));
-            if ($count === 0) {
-                $pictureFiles = $form->get('picture')->getData();
 
-                $main = true;
-                foreach ($pictureFiles as $pictureFile) {
+            $pictureFiles = $form->get('picture')->getData();
 
+            $main = true;
+            foreach ($pictureFiles as $pictureFile) {
+                $figurePicture = $pictureService->uploadPicture($pictureFile, $main);
 
-                    $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $pictureFile->guessExtension();
-
-                    // Move the file to the directory where brochures are stored
-                    try {
-                        $pictureFile->move(
-                            $this->getParameter('figurePicture_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file uploads
-                    }
-
-
-                    $figurePicture = new FigurePicture();
-                    $figurePicture->setFilename($newFilename);
-                    $figurePicture->setMain($main);
-                    $figure->addFigurePicture($figurePicture);
-                    if ($main === true) {
-                        $main = false;
-                    }
+                $figure->addFigurePicture($figurePicture);
+                if ($main === true) {
+                    $main = false;
                 }
-                $figure->setCreatedAt(date_create());
-                $figure->setModifiedAt(date_create());
-                $figure->setSlug($slugger->slug($figure->getName()));
-                $figure->setAutor($this->getUser());
-
-
-                $em->persist($figure);
-
-                $em->flush();
-                $flash->add('success', 'Ajouté avec succès');
-                return $this->redirectToRoute('home');
             }
-            $flash->add('error', 'Le nom de figure ressemble déjà à une figure existante');
+            $figure->setCreatedAt(date_create());
+            $figure->setModifiedAt(date_create());
+            $figure->setSlug($slugger->slug($figure->getName()));
+            $figure->setAutor($this->getUser());
+
+
+            $em->persist($figure);
+
+            $em->flush();
+            $flash->add('success', 'Ajouté avec succès');
+            return $this->redirectToRoute('home');
         }
         return $this->render('figure/newFigure.html.twig', [
             'form' => $form->createView()
