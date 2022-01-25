@@ -20,18 +20,16 @@ class SlugUniqueValidator extends ConstraintValidator
             return;
         }
 
-        /*   $count = $this->figureRepository->count(['slug' => $this->slugger->slug($value)]);
 
-        if ($count !== 0) {
-            $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ value }}', $value)
-                ->addViolation();
-        }*/
-        $figure = $this->figureRepository->findBy(['slug' => $this->slugger->slug($value)]);
-        if (count($figure) > 0 && $figure[0]->getName() !== $value) {
-            $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ value }}', $value)
-                ->addViolation();
+        $figures = $this->figureRepository->findBy(['slug' => $this->slugger->slug($value)]);
+        if (count($figures) > 0) {
+            foreach ($figures as $figure) {
+                if ($figure->getName() !== $value) {
+                    $this->context->buildViolation($constraint->message)
+                        ->setParameter('{{ value }}', $value)
+                        ->addViolation();
+                }
+            }
         }
     }
 }

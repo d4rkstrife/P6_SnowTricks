@@ -2,6 +2,7 @@ nav:
   home: Accueil
   signIn: Se connecter
   signUp: S'enregistrer
+  accountNotValidate: Validez votre compte dans vos mails.
   username: Utilisateur
   newTrick: Nouvelle figure
   logOut: Se déconnecter

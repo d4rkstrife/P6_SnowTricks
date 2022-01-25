@@ -175,7 +175,7 @@ class FigureController extends AbstractController
         foreach ($pictures as $picture) {
             $figure->removeFigurePicture($picture);
             $fileSystem->remove(
-                $this->getParameter('figurePicture_directory') . "/" . $picture->getFilename()
+                $this->getParameter('figurePictureDirectory') . "/" . $picture->getFilename()
             );
         }
         foreach ($videos as $video) {
