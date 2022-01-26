@@ -3,10 +3,8 @@
 namespace App\Service;
 
 use App\Entity\FigurePicture;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class PictureService
 {
@@ -46,6 +44,8 @@ class PictureService
         $safeFilename = $this->slugger->slug($originalFilename);
         return $safeFilename . '-' . uniqid() . '.' . $pictureFile->guessExtension();
     }
+
+
     public function createPicture(bool $main, string $name): FigurePicture
     {
         $figurePicture = new FigurePicture();

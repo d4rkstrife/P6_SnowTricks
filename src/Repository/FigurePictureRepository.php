@@ -47,4 +47,11 @@ class FigurePictureRepository extends ServiceEntityRepository
         ;
     }
     */
+    /*
+    public function countSlug(string $slug, Figure $figure): int
+    {
+        return $this->createQueryBuilder('f')
+        //voir dql
+    }
+    */
 }
