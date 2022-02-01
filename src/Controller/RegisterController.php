@@ -54,6 +54,7 @@ class RegisterController extends AbstractController
             $user->setPassword($passwordHasher->hashPassword($user, $form->get('password')->getData()));
             $user->setRegistrationKey('random');
             $user->setMailIsValidate(false);
+            $user->setRegistrationKey('toto');
             $em->persist($user);
             $em->flush();
 

@@ -15,6 +15,7 @@ use App\Validator as CustomAssert;
 /**
  * @ORM\Entity(repositoryClass=FigureRepository::class)
  * @UniqueEntity(fields={"name"}, message="Nom déjà utilisé")
+ * @CustomAssert\SlugUnique()
  */
 class Figure
 {
@@ -29,7 +30,6 @@ class Figure
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
      * @Assert\NotNull()
-     * @CustomAssert\SlugUnique()
      */
     private $name;
 

@@ -7,9 +7,14 @@ use Symfony\Component\Security\Core\Exception\AccountExpiredException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserChecker implements UserCheckerInterface
+
 {
+    public function __construct(private TranslatorInterface $translator)
+    {
+    }
     public function checkPreAuth(UserInterface $user): void
     {
         if (!$user instanceof AppUser) {
@@ -18,7 +23,7 @@ class UserChecker implements UserCheckerInterface
 
         if ($user->getMailIsValidate() !== true) {
             // the message passed to this exception is meant to be displayed to the user
-            throw new CustomUserMessageAccountStatusException('Compte non validé.');
+            throw new CustomUserMessageAccountStatusException($this->translator->trans('nav.accountNotValidate'));
         }
     }
 

@@ -14,4 +14,9 @@ class SlugUnique extends Constraint
      * Then, use these in your validator class.
      */
     public $message = 'uniqueSlug';
+
+    public function getTargets()
+    {
+        return self::CLASS_CONSTRAINT;
+    }
 }
