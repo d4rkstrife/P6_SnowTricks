@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Figure;
 use App\Entity\FigurePicture;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method FigurePicture|null find($id, $lockMode = null, $lockVersion = null)
@@ -45,13 +46,6 @@ class FigurePictureRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
-    }
-    */
-    /*
-    public function countSlug(string $slug, Figure $figure): int
-    {
-        return $this->createQueryBuilder('f')
-        //voir dql
     }
     */
 }

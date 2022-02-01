@@ -47,4 +47,22 @@ class FigureRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    public function countSlug(string $slug, Figure $figure): int
+    {
+        //   $em = $this->getDoctrine()->getManager();
+        $qb = $this->createQueryBuilder('f')
+            ->select('COUNT(f)')
+            ->andWhere('f.slug = :slug')
+            ->setParameter('slug', $slug);
+        if ($figure->getId() !== null) {
+            $qb->andWhere('f != :figure')
+                ->setParameter('figure', $figure);
+        }
+
+
+        return $qb->getQuery()
+            ->getSingleScalarResult();;
+    }
 }
