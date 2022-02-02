@@ -55,10 +55,11 @@ class RegisterController extends AbstractController
             $user->setRegistrationKey('toto');
             $em->persist($user);
             $em->flush();
+
             return $this->redirectToRoute('email');
 
 
-            //return $this->redirectToRoute('home');
+            //
         }
 
 

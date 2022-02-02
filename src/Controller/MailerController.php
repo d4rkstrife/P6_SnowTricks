@@ -7,15 +7,16 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class MailerController extends AbstractController
 {
     #[Route('/email', name: 'email')]
-    public function sendEmail(MailerInterface $mailer): Response
+    public function sendEmail(MailerInterface $mailer, FlashBagInterface $flash): Response
     {
         $email = (new Email())
-            ->from('hello@example.com')
-            ->to('you@example.com')
+            ->from('p.gdc85@gmail.com')
+            ->to('p.gdc85@gmail.com')
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
@@ -26,8 +27,7 @@ class MailerController extends AbstractController
 
         $mailer->send($email);
 
-        dd('toto');
-
-        // ...
+        $flash->add('success', 'Compte créé avec succès');
+        return $this->redirectToRoute('home');
     }
 }
