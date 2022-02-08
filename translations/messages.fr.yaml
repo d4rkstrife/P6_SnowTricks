@@ -29,3 +29,5 @@ modifiateFigure:
   makeMain: Photo Principale
 mail:
   subject: Bienvenue sur Snowtricks
+properties:
+  not_blank: Cette case ne peut pas etre vide.

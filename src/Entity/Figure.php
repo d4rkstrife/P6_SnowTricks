@@ -27,7 +27,7 @@ class Figure
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=25, unique=true)
      * @Assert\NotBlank()
      * @Assert\NotNull()
      */
@@ -36,6 +36,8 @@ class Figure
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private $description;
 
@@ -63,6 +65,7 @@ class Figure
     /**
      * @ORM\ManyToOne(targetEntity=FigureGroup::class, inversedBy="relatedFigures")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $figureGroup;
 
