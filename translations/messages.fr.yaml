@@ -27,3 +27,5 @@ newFigure:
 modifiateFigure:
   delete: Supprimer
   makeMain: Photo Principale
+mail:
+  subject: Bienvenue sur Snowtricks

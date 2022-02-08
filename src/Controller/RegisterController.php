@@ -5,19 +5,31 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Entity\ProfilPicture;
+use Symfony\Component\Mime\Email;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegisterController extends AbstractController
 {
+    /**
+     * @var string
+     */
+    private $websiteAdress;
+    public function __construct(string $websiteAdress)
+    {
+        $this->websiteAdress = $websiteAdress;
+    }
+
     #[Route('/register', name: 'register')]
-    public function index(Request $request, SluggerInterface $slugger, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
+    public function index(Request $request, FlashBagInterface $flash, SluggerInterface $slugger, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher, MailerInterface $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -56,8 +68,19 @@ class RegisterController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('email');
+            $email = (new Email())
+                ->from($this->websiteAdress)
+                ->to($user->getEmail())
+                ->subject('Bienvenue sur Snowtricks')
+                ->text('Sending emails is fun again!')
+                ->html('<p>See Twig integration for better HTML integration!</p>');
 
+            $mailer->send($email);
+
+            $flash->add('success', 'Compte créé avec succès');
+
+            //   return $this->redirectToRoute('email', ['user' => $user->getId()]);
+            return $this->redirectToRoute('home');
 
             //
         }
