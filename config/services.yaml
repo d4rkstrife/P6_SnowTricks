@@ -8,6 +8,7 @@ parameters:
     app.commentperpage: 3
     figurePictureDirectory: '%kernel.project_dir%/public/image/upload'
     profilPicture_directory: '%kernel.project_dir%/public/image/profile'
+    websiteAdress: 'Snowtricks@mail.com'
 
 services:
     # default configuration for services in *this* file
@@ -15,6 +16,7 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         bind:
             $figurePictureDirectory: '%figurePictureDirectory%'
+            $websiteAdress: '%websiteAdress%'
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
     # makes classes in src/ available to be used as services

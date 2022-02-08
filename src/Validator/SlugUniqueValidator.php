@@ -30,7 +30,7 @@ class SlugUniqueValidator extends ConstraintValidator
         if ($this->figureRepository->countSlug($this->slugger->slug($value->getName()), $value) > 0) {
 
             $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ value }}', $value)
+                ->setParameter('{{ value }}', $value->getName())
                 ->addViolation();
         }
     }

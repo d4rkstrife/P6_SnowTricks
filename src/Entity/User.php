@@ -31,6 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
      * @Assert\NotNull()
+     * @Assert\Regex("^([a-zA-Z0-9-_]{2,36})$^")
      */
     private $name;
 
