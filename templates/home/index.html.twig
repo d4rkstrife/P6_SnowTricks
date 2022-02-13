@@ -33,10 +33,10 @@
 
 
 					{% if data.figurePictures|length == 0 %}
-						<img src="{{ asset('image/default/default.jpg') }}" class="card-img-top">
+						<a href="{{path('figure', {slug: data.slug})}}" class="card-img-top"><img src="{{ asset('image/default/default.jpg') }}" class="card-img"></a>
 
 					{% elseif data.figurePictures|length == 1 %}
-						<img src="{{ asset('image/upload/' ~ data.figurePictures[0].fileName) }}" class="card-img-top">
+						<a href="{{path('figure', {slug: data.slug})}}" class="card-img-top"><img src="{{ asset('image/upload/' ~ data.figurePictures[0].fileName) }}" class="card-img"></a>
 
 
 					{% elseif data.figurePictures|length > 1 %}
@@ -44,18 +44,18 @@
 						{% for picture in data.figurePictures %}
 							{% if picture.main %}
 								{% set mainExist = true %}
-								<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img-top">
+								<a href="{{path('figure', {slug: data.slug})}}" class="card-img-top"><img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img"></a>
 							{% endif %}
 						{% endfor %}
 						{% if mainExist == false %}
-							<img src="{{ asset('image/upload/' ~ data.figurePictures[0].fileName) }}" class="card-img-top">
+							<a href="{{path('figure', {slug: data.slug})}}" class="card-img-top"><img src="{{ asset('image/upload/' ~ data.figurePictures[0].fileName) }}" class="card-img"></a>
 
 						{% endif %}
 					{% endif %}
 
 					<div class="card-body">
-
-						<a href="{{path('figure', {slug: data.slug})}}">{{ data.name|capitalize }}</a>
+						<h5 class="card-title">{{ data.name|capitalize }}</h5>
+						{# <a href="{{path('figure', {slug: data.slug})}}">{{ data.name|capitalize }}</a> #}
 						{% if app.user %}
 							<div>
 								<a href="{{path('modification', {slug: data.slug} )}}">

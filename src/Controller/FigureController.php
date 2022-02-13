@@ -123,7 +123,11 @@ class FigureController extends AbstractController
             $figure->setSlug($slugger->slug($figure->getName()));
             $figure->setAutor($this->getUser());
 
+            $videoFiles = $form->get('relatedVideos')->getData();
+            foreach ($videoFiles as $videoFile) {
 
+                $videoFile->setRelatedFigure($figure);
+            }
             $em->persist($figure);
 
             $em->flush();

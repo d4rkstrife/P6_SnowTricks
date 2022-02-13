@@ -30,6 +30,7 @@ class Figure
      * @ORM\Column(type="string", length=25, unique=true)
      * @Assert\NotBlank()
      * @Assert\NotNull()
+     * @Assert\Regex("^([a-zA-Z0-9-_]{2,36})$^")
      */
     private $name;
 
