@@ -125,7 +125,6 @@ class FigureController extends AbstractController
 
             $videoFiles = $form->get('relatedVideos')->getData();
             foreach ($videoFiles as $videoFile) {
-
                 $videoFile->setRelatedFigure($figure);
             }
             $em->persist($figure);
