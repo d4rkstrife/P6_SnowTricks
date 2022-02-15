@@ -54,8 +54,9 @@
 					{% endif %}
 
 					<div class="card-body">
-						<h5 class="card-title">{{ data.name|capitalize }}</h5>
-						{# <a href="{{path('figure', {slug: data.slug})}}">{{ data.name|capitalize }}</a> #}
+						<a href="{{path('figure', {slug: data.slug})}}">
+							<h5>{{ data.name|capitalize }}</h5>
+						</a>
 						{% if app.user %}
 							<div>
 								<a href="{{path('modification', {slug: data.slug} )}}">
@@ -91,6 +92,10 @@
 					</div>
 				</div>
 			{% endfor %}
+
+
+		</ul>
+		<div class="home_more_widget">
 			{% if page < maxPage %}
 				<a href="{{path('home', {page: page + 1 } )}}#figures_card">
 					<button type="button" class="btn btn-light" style="height:50px">{{"button.more"|trans}}</button>
@@ -101,7 +106,6 @@
 					<img src="{{asset('image/icons/arrow-up.png')}}" class="up-arrow">
 				</a>
 			{% endif %}
-
-		</ul>
+		</div>
 	</div>
 {% endblock %}

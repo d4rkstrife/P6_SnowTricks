@@ -12,12 +12,12 @@
 	{% endfor %}
 	<div class="trick-page-top">
 		{% if app.user %}
-			<div>
-				<a href="{{path('modification', {slug: figure.slug} )}}">
+			<div class="details_buttons_widget">
+				<a href="{{path('modification', {slug: figure.slug} )}}" class="details_button">
 					<button type="button" class="btn btn-light figure_button"><img src="{{ asset('image/icons/penne.png') }}" class="icons"></button>
 				</a>
 				<!-- Button trigger modal -->
-				<button type="button" class="btn btn-light  figure_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				<button type="button" class="btn btn-light  figure_button details_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
 					<img src="{{ asset('image/icons/poubelle.png') }}" class="icons">
 				</button>
 

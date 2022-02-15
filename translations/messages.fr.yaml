@@ -29,5 +29,8 @@ modifiateFigure:
   makeMain: Photo Principale
 mail:
   subject: Bienvenue sur Snowtricks
+  thanks: Merci pour votre inscription %user%.
+  link: Cliquez sur le lien pour valider votre adresse mail
+  click: Cliquez ici
 properties:
   not_blank: Cette case ne peut pas etre vide.
