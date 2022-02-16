@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Entity\ProfilPicture;
 use Symfony\Component\Mime\Email;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,24 +63,25 @@ class RegisterController extends AbstractController
                 $user->setProfilPicture($profilPicture);
             }
             $user->setPassword($passwordHasher->hashPassword($user, $form->get('password')->getData()));
-            $user->setRegistrationKey('random');
             $user->setMailIsValidate(false);
             $user->setRegistrationKey('toto');
             $em->persist($user);
             $em->flush();
 
-            $email = (new Email())
+            $email = (new TemplatedEmail())
                 ->from($this->websiteAdress)
                 ->to($user->getEmail())
                 ->subject('Bienvenue sur Snowtricks')
-                ->text('Sending emails is fun again!')
-                ->html('<p>See Twig integration for better HTML integration!</p>');
+                ->text('localhost:8000/validate/' . $user->getId() . '/' . $user->getRegistrationKey())
+                ->context([
+                    'user' => $user,
+                ])
+                ->htmlTemplate('email/validation.html.twig');
 
             $mailer->send($email);
 
             $flash->add('success', 'Compte créé avec succès');
 
-            //   return $this->redirectToRoute('email', ['user' => $user->getId()]);
             return $this->redirectToRoute('home');
 
             //
@@ -89,5 +91,22 @@ class RegisterController extends AbstractController
         return $this->render('register/index.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/validate/{user}/{key}', name: 'validate')]
+    public function validate(User $user, string $key, FlashBagInterface $flash, EntityManagerInterface $em): Response
+    {
+        //dd($user);
+        if ($user->getRegistrationKey() === $key) {
+            $user->setMailIsValidate('true');
+            $user->setRegistrationKey('');
+
+            $em->persist($user);
+            $em->flush();
+
+            $flash->add('success', 'Adresse mail confirmée');
+
+            return $this->redirectToRoute('app_login');
+        }
     }
 }

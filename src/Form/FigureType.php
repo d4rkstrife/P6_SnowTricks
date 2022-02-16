@@ -26,7 +26,7 @@ class FigureType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => 'Description'
             ])
-         /*   ->add('slug', TextType::class, [
+            /*   ->add('slug', TextType::class, [
                 'label' => 'slug'
             ])*/
             ->add('figureGroup', EntityType::class, [
@@ -57,6 +57,7 @@ class FigureType extends AbstractType
                 'entry_type' => FigureVideoType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
+                'allow_delete' => true,
             ]);
     }
 

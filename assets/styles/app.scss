@@ -34,7 +34,6 @@
 /* Markup */
 
 .container {
-    height: 100vh;
     padding: 20px;
     text-align: center;
 }
@@ -51,6 +50,10 @@
 
 
 /* Arrow & Hover Animation */
+
+.home_more_widget {
+    text-align: center;
+}
 
 #more-arrows {
     width: 75px;
@@ -90,7 +93,7 @@ polygon {
 }
 
 .icons {
-    height: 15px;
+    height: 25px;
 }
 
 .card-body {
@@ -186,4 +189,14 @@ polygon {
 
 a {
     text-decoration: none;
+}
+
+.card-img {
+    height: 100%;
+    width: 100%;
+}
+
+.details_buttons_widget {
+    position: absolute;
+    right: 15px;
 }

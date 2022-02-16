@@ -33,10 +33,10 @@
 
 
 					{% if data.figurePictures|length == 0 %}
-						<img src="{{ asset('image/default/default.jpg') }}" class="card-img-top">
+						<a href="{{path('figure', {slug: data.slug})}}" class="card-img-top"><img src="{{ asset('image/default/default.jpg') }}" class="card-img"></a>
 
 					{% elseif data.figurePictures|length == 1 %}
-						<img src="{{ asset('image/upload/' ~ data.figurePictures[0].fileName) }}" class="card-img-top">
+						<a href="{{path('figure', {slug: data.slug})}}" class="card-img-top"><img src="{{ asset('image/upload/' ~ data.figurePictures[0].fileName) }}" class="card-img"></a>
 
 
 					{% elseif data.figurePictures|length > 1 %}
@@ -44,18 +44,19 @@
 						{% for picture in data.figurePictures %}
 							{% if picture.main %}
 								{% set mainExist = true %}
-								<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img-top">
+								<a href="{{path('figure', {slug: data.slug})}}" class="card-img-top"><img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img"></a>
 							{% endif %}
 						{% endfor %}
 						{% if mainExist == false %}
-							<img src="{{ asset('image/upload/' ~ data.figurePictures[0].fileName) }}" class="card-img-top">
+							<a href="{{path('figure', {slug: data.slug})}}" class="card-img-top"><img src="{{ asset('image/upload/' ~ data.figurePictures[0].fileName) }}" class="card-img"></a>
 
 						{% endif %}
 					{% endif %}
 
 					<div class="card-body">
-
-						<a href="{{path('figure', {slug: data.slug})}}">{{ data.name|capitalize }}</a>
+						<a href="{{path('figure', {slug: data.slug})}}">
+							<h5>{{ data.name|capitalize }}</h5>
+						</a>
 						{% if app.user %}
 							<div>
 								<a href="{{path('modification', {slug: data.slug} )}}">
@@ -91,6 +92,10 @@
 					</div>
 				</div>
 			{% endfor %}
+
+
+		</ul>
+		<div class="home_more_widget">
 			{% if page < maxPage %}
 				<a href="{{path('home', {page: page + 1 } )}}#figures_card">
 					<button type="button" class="btn btn-light" style="height:50px">{{"button.more"|trans}}</button>
@@ -101,7 +106,6 @@
 					<img src="{{asset('image/icons/arrow-up.png')}}" class="up-arrow">
 				</a>
 			{% endif %}
-
-		</ul>
+		</div>
 	</div>
 {% endblock %}

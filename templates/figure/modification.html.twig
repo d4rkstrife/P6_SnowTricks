@@ -5,8 +5,7 @@
 
 {% block body %}
 
-	<h1>Modifier
-		{{ figure.name }}</h1>
+	<h1>{{'modifiateFigure.modifiateFigure'|trans({'%figure%': figure.name})}}</h1>
 
 	<div class="form-container">
 		<div class="new-figure-form">
@@ -50,6 +49,12 @@
 					{% endif %}
 				</div>
 			{% endfor %}
+			<ul class="tags" data-index="{{ form.relatedVideos|length > 0 ? form.relatedVideos|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(form.relatedVideos.vars.prototype)|e('html_attr') }}">
+				{% for video in form.relatedVideos %}
+					<li>{{ form_row(video.link) }}</li>
+				{% endfor %}
+				<button type="button" class="add_item_link" data-collection-holder-class="tags">{{'figure.addVideo'|trans}}</button>
+			</ul>
 
 
 			<button type="submit" class="btn btn-success">{{ "button.validate"|trans }}</button>

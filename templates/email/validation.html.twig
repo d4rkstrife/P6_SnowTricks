@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+	<head></head>
+	<body>
+		<div class="body">
+			<div class="container">
+				<div class="header text-center">
+					<h1>{{ 'mail.thanks'|trans({"%user%": user.name}) }}</h1>
+				</div>
+				<div class="content">
+					<p>{{ 'mail.link'|trans}}</p>
+					<a href="http://localhost:8000/validate/{{user.id}}/{{user.registrationKey}}">{{'mail.click'|trans}}</a>

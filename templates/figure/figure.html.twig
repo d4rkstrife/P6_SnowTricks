@@ -12,12 +12,12 @@
 	{% endfor %}
 	<div class="trick-page-top">
 		{% if app.user %}
-			<div>
-				<a href="{{path('modification', {slug: figure.slug} )}}">
+			<div class="details_buttons_widget">
+				<a href="{{path('modification', {slug: figure.slug} )}}" class="details_button">
 					<button type="button" class="btn btn-light figure_button"><img src="{{ asset('image/icons/penne.png') }}" class="icons"></button>
 				</a>
 				<!-- Button trigger modal -->
-				<button type="button" class="btn btn-light  figure_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				<button type="button" class="btn btn-light  figure_button details_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
 					<img src="{{ asset('image/icons/poubelle.png') }}" class="icons">
 				</button>
 
@@ -85,15 +85,12 @@
 	</div>
 	<hr>
 	<div class="figure_informations">
-		<h4>Groupe :
-			{{ figure.figureGroup.name }}</h4>
-		<p>Ajoutée le
-			{{ figure.createdAt | date("d/m/Y \\à G\\hi", "Europe/Paris")}}
-			par
-			{{ figure.autor.name }}</p>
+		<h4>{{"figure.group"|trans({'%group%': figure.figureGroup.name})}}</h4>
+		<p>{{"figure.addDate"|trans({"%date%": figure.createdAt | date("d/m/Y \\à G\\hi", "Europe/Paris"), '%user%': figure.autor.name})}}
+		</p>
 		{% if date(figure.modifiedAt) > date(figure.createdAt) %}
 			<p>Modifiée le
-				{{ figure.modifiedAt | date("d/m/Y \\à G\\hi", "Europe/Paris")}}</p>
+				{{ 'figure.modifiedAt'|trans({'%date%': figure.modifiedAt | date("d/m/Y \\à G\\hi", "Europe/Paris")})}}</p>
 		{% endif %}
 	</div>
 	<div class="trick-comments" id="comments">
@@ -102,7 +99,7 @@
 			<h4>{{ "figure.addComment" | trans }}</h4>
 			{{ form_start(form) }}
 			{{ form_row(form.content) }}
-			<button type="submit">Valider</button>
+			<button type="submit">{{'button.validate'|trans}}</button>
 			{{ form_end(form) }}
 			<hr>
 		{% endif %}
