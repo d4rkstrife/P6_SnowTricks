@@ -5,8 +5,7 @@
 
 {% block body %}
 
-	<h1>Modifier
-		{{ figure.name }}</h1>
+	<h1>{{'modifiateFigure.modifiateFigure'|trans({'%figure%': figure.name})}}</h1>
 
 	<div class="form-container">
 		<div class="new-figure-form">
@@ -54,7 +53,7 @@
 				{% for video in form.relatedVideos %}
 					<li>{{ form_row(video.link) }}</li>
 				{% endfor %}
-				<button type="button" class="add_item_link" data-collection-holder-class="tags">Add a video</button>
+				<button type="button" class="add_item_link" data-collection-holder-class="tags">{{'figure.addVideo'|trans}}</button>
 			</ul>
 
 

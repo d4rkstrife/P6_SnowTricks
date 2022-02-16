@@ -6,6 +6,7 @@ nav:
   username: Utilisateur
   newTrick: Nouvelle figure
   logOut: Se déconnecter
+  loginTitle: Connectez-vous
 card:
   details: Détails
 button: 
@@ -14,9 +15,13 @@ button:
   cancel: Annuler
   delete: Supprimer
 figure:
+  addVideo: Ajouter une vidéo
+  group: Groupe %group%
   name: nom
   description: Description
   comments: Commentaires
+  modifiedAt: Modifiée le %date%
+  addDate: Ajoutée le %date% par %user%
   addComment: Ajouter un commentaire
   moreComments : Plus de commentaires
   deleteMessage: Etes-vous sûr de vouloir supprimer cette figure?
@@ -25,6 +30,7 @@ page:
 newFigure:
   videos: Vidéos
 modifiateFigure:
+  modifiateFigure: Modifier %figure%
   delete: Supprimer
   makeMain: Photo Principale
 mail:
