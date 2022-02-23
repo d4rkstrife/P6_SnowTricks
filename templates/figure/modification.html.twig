@@ -34,30 +34,33 @@
 				{{ form_widget(form.picture, {'attr': {'class': 'custom-file-input'}}) }}
 				{{ form_errors(form.picture) }}
 			</div>
-
-			{% for picture in figure.figurePictures %}
-				<div class="card" style="width:35%">
-					<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img-top">
-					<a href="{{path('deletePicture', {pictureId: picture.id, figureId: figure.id}) }}">
-						<button type="button" class="btn btn-danger">{{ "modifiateFigure.delete"|trans }}</button>
-					</a>
-
-					{% if picture.main != true %}
-						<a href="{{path('makePictureMain', {picture: picture.id}) }}">
-							<button type="button" class="btn btn-success">{{ "modifiateFigure.makeMain"|trans }}</button>
+			<div class="pictures_container">
+				{% for picture in figure.figurePictures %}
+					<div class="card" style="width:35%">
+						<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img-top">
+						<a href="{{path('deletePicture', {pictureId: picture.id, figureId: figure.id}) }}">
+							<button type="button" class="btn btn-danger">{{ "modifiateFigure.delete"|trans }}</button>
 						</a>
-					{% endif %}
-				</div>
-			{% endfor %}
+
+						{% if picture.main != true %}
+							<a href="{{path('makePictureMain', {picture: picture.id}) }}">
+								<button type="button" class="btn btn-success">{{ "modifiateFigure.makeMain"|trans }}</button>
+							</a>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
 			<ul class="tags" data-index="{{ form.relatedVideos|length > 0 ? form.relatedVideos|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(form.relatedVideos.vars.prototype)|e('html_attr') }}">
+
+				<button type="button" class="add_item_link" data-collection-holder-class="tags">{{'figure.addVideo'|trans}}</button>
 				{% for video in form.relatedVideos %}
+					<div>{{ video.link.vars.value| raw }}</div>
 					<li>{{ form_row(video.link) }}</li>
 				{% endfor %}
-				<button type="button" class="add_item_link" data-collection-holder-class="tags">{{'figure.addVideo'|trans}}</button>
 			</ul>
 
 
-			<button type="submit" class="btn btn-success">{{ "button.validate"|trans }}</button>
+			<button type="submit" class="btn btn-success" style="margin-bottom: 35px">{{ "button.validate"|trans }}</button>
 			{% for flashMessage in app.session.flashbag.get('error') %}
 
 				<h5 class="error">{{ flashMessage }}</h5>

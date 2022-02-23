@@ -4,12 +4,13 @@ namespace App\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator as CustomAssert;
 use App\Repository\FigureRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use App\Validator as CustomAssert;
 
 
 /**
@@ -27,10 +28,16 @@ class Figure
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
      * @Assert\NotNull()
      * @Assert\Regex("^([a-zA-Z0-9-_]{2,36})$^")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 30,
+     *      minMessage = "Le nom de la figure doit faire au moins {{ limit }} caracteres",
+     *      maxMessage = "Le nom de la figure doit faire au maximum {{ limit }} caracteres"
+     * )
      */
     private $name;
 
@@ -39,6 +46,10 @@ class Figure
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
      * @Assert\NotNull()
+     * @Assert\Length(
+     *      min = 20,
+     *      minMessage = "La description doit faire au moins {{ limit }} caractères"
+     * )
      */
     private $description;
 

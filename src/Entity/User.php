@@ -7,11 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -32,6 +33,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\NotBlank()
      * @Assert\NotNull()
      * @Assert\Regex("^([a-zA-Z0-9-_]{2,36})$^")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 36,
+     *      minMessage = "Le nom doit faire au moins {{ limit }} caractères",
+     *      maxMessage = "Le nom doit faire au maximum {{ limit }} caractères"
+     * )
      */
     private $name;
 
@@ -39,6 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank()
      * @Assert\NotNull()
+     * @Assert\Regex("^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$^")
      */
     private $email;
 

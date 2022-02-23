@@ -55,9 +55,10 @@ class FigureType extends AbstractType
             ])
             ->add('relatedVideos', CollectionType::class, [
                 'entry_type' => FigureVideoType::class,
-                'entry_options' => ['label' => false],
+                'label' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
+                'by_reference' => false,
             ]);
     }
 
