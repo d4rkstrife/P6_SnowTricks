@@ -7,19 +7,20 @@ use App\Entity\Comment;
 use App\Form\FigureType;
 use App\Form\CommentType;
 use App\Service\Paginator;
-use App\Entity\FigurePicture;
 use App\Entity\FigureVideo;
+use App\Entity\FigurePicture;
+use App\Service\PictureService;
 use App\Repository\FigureRepository;
 use App\Repository\CommentRepository;
-use App\Repository\FigurePictureRepository;
-use App\Service\PictureService;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\FigurePictureRepository;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
@@ -55,8 +56,10 @@ class FigureController extends AbstractController
     }
 
     #[Route('/modification/{slug}', name: 'modification')]
+    #[IsGranted('ROLE_USER')]
     public function figureModification(FigureRepository $figureRepository, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, string $slug, PictureService $pictureService): Response
     {
+
         $figure = $figureRepository->findOneBy(['slug' => $slug]);
         $figurePictures = $figure->getFigurePictures();
         $main = true;
@@ -97,6 +100,7 @@ class FigureController extends AbstractController
 
 
     #[Route('/newFigure', name: 'newFigure')]
+    #[IsGranted('ROLE_USER')]
     public function newFigure(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, PictureService $pictureService)
     {
         $figure = new Figure();
@@ -123,10 +127,6 @@ class FigureController extends AbstractController
             $figure->setSlug($slugger->slug($figure->getName()));
             $figure->setAutor($this->getUser());
 
-            $videoFiles = $form->get('relatedVideos')->getData();
-            foreach ($videoFiles as $videoFile) {
-                $videoFile->setRelatedFigure($figure);
-            }
             $em->persist($figure);
 
             $em->flush();
@@ -139,8 +139,10 @@ class FigureController extends AbstractController
     }
 
     #[Route('/delete/{pictureId}/{figureId}', name: 'deletePicture')]
+    #[IsGranted('ROLE_USER')]
     public function deletePicture(Figure $figureId, FileSystem $fileSystem, FigurePicture $pictureId, FigurePictureRepository $figurePictureRepo, FigureRepository $figureRepo, EntityManagerInterface $em)
     {
+
         $picture = $figurePictureRepo->findOneBy(['id' => $pictureId]);
         $figure = $figureRepo->findOneBy(['id' => $figureId]);
         $figure->removeFigurePicture($picture);
@@ -154,8 +156,10 @@ class FigureController extends AbstractController
     }
 
     #[Route('/mainPicture/{picture}', name: 'makePictureMain')]
+    #[IsGranted('ROLE_USER')]
     public function makePictureMain(FigurePicture $picture, EntityManagerInterface $em)
     {
+
         $figure = $picture->getRelatedFigure();
         foreach ($figure->getFigurePictures() as $image) {
             $image->setMain($picture->getId() === $image->getId());
@@ -167,6 +171,7 @@ class FigureController extends AbstractController
     }
 
     #[Route('deleteFigure/{figure}', name: 'deleteFigure')]
+    #[IsGranted('ROLE_USER')]
     public function deleteFigure(Figure $figure, EntityManagerInterface $em, Filesystem $fileSystem)
     {
         $comments = $figure->getComments();

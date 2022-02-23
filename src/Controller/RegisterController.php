@@ -16,6 +16,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpKernel\UriSigner;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegisterController extends AbstractController
@@ -32,6 +33,9 @@ class RegisterController extends AbstractController
     #[Route('/register', name: 'register')]
     public function index(Request $request, FlashBagInterface $flash, SluggerInterface $slugger, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher, MailerInterface $mailer): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('home');
+        }
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
@@ -94,9 +98,11 @@ class RegisterController extends AbstractController
     }
 
     #[Route('/validate/{user}/{key}', name: 'validate')]
-    public function validate(User $user, string $key, FlashBagInterface $flash, EntityManagerInterface $em): Response
+    public function validate(User $user, string $key, FlashBagInterface $flash, EntityManagerInterface $em, Request $request, UriSigner $uriSigner): Response
     {
-        //dd($user);
+        if ($uriSigner->checkRequest($request)) {
+        }
+
         if ($user->getRegistrationKey() === $key) {
             $user->setMailIsValidate('true');
             $user->setRegistrationKey('');

@@ -89,8 +89,7 @@
 		<p>{{"figure.addDate"|trans({"%date%": figure.createdAt | date("d/m/Y \\à G\\hi", "Europe/Paris"), '%user%': figure.autor.name})}}
 		</p>
 		{% if date(figure.modifiedAt) > date(figure.createdAt) %}
-			<p>Modifiée le
-				{{ 'figure.modifiedAt'|trans({'%date%': figure.modifiedAt | date("d/m/Y \\à G\\hi", "Europe/Paris")})}}</p>
+			<p>{{ 'figure.modifiedAt'|trans({'%date%': figure.modifiedAt | date("d/m/Y \\à G\\hi", "Europe/Paris")})}}</p>
 		{% endif %}
 	</div>
 	<div class="trick-comments" id="comments">
