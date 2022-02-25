@@ -8,6 +8,11 @@
 	<div>
 
 		<div id="index-img">
+			{% for flashMessage in app.session.flashbag.get('success') %}
+
+				<h5 class="success">{{ flashMessage }}</h5>
+
+			{% endfor %}
 			<img src="{{ asset('image/man-g609b0aeff_1920.jpg') }}" class="img-fluid" id="index-fullscreen-img">
 			<a href="#figures_card" class="arrow-down">
 				<div class="container">
@@ -21,11 +26,9 @@
 				</div>
 			</a>
 		</div>
-		{% for flashMessage in app.session.flashbag.get('success') %}
+		<hr class="mid-page-separator">
+		<h4 class="mid-title">{{'nav.allFigure'|trans}}</h4>
 
-			<h5 class="success">{{ flashMessage }}</h5>
-
-		{% endfor %}
 		<ul class="figure-card-list" id="figures_card">
 
 			{% for data in datas %}
@@ -98,7 +101,7 @@
 		<div class="home_more_widget">
 			{% if page < maxPage %}
 				<a href="{{path('home', {page: page + 1 } )}}#figures_card">
-					<button type="button" class="btn btn-light" style="height:50px">{{"button.more"|trans}}</button>
+					<button type="button" class="btn btn-light more-button">{{"button.more"|trans}}</button>
 				</a>
 			{% endif %}
 			{% if page > 1 %}

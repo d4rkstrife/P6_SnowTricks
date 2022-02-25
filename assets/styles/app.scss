@@ -1,4 +1,39 @@
 @import "~bootstrap/scss/bootstrap";
+@font-face {
+    font-family: "Smasher";
+    src: url("./fontawesome-free/webfonts/Smasher\ 312\ Custom.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Snowlatte";
+    src: url("./fontawesome-free/webfonts/Snowlatte.ttf") format("truetype");
+}
+
+body {
+    font-family: "Snowlatte";
+    font-size: 1.5rem;
+    background-color: #f8f9fa;
+    padding-bottom: 3%;
+}
+
+h5 {
+    font-size: 1.5rem;
+}
+
+.mid-page-separator {
+    width: 70%;
+    margin-left: 15%;
+}
+
+.mid-title {
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+.app-title {
+    font-family: "Smasher";
+}
+
 .figure-card-list {
     margin: 25px;
     display: flex;
@@ -28,6 +63,10 @@
     width: 80px;
     position: absolute;
     bottom: 5%;
+}
+
+.card-img-top {
+    min-height: 80%;
 }
 
 
@@ -85,6 +124,7 @@ polygon {
 
 .card {
     height: 35vh;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
 .card-img-top {
@@ -119,16 +159,19 @@ polygon {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    margin: 2% 10% 3% 10%;
 }
 
 .trick-page-mid iframe {
-    width: 15%;
+    width: 20%;
     height: 150px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
 .trick-small-image {
-    width: 15%;
+    width: 20%;
     height: 150px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
 .trick-description {
@@ -159,8 +202,15 @@ polygon {
 }
 
 .figure-comment-details p {
-    padding-left: 10px;
-    padding-right: 15px;
+    padding: 0;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.figure-principal-img {
+    width: 30vw;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    margin-bottom: 3%;
 }
 
 .up-arrow {
@@ -189,6 +239,11 @@ polygon {
 
 a {
     text-decoration: none;
+}
+
+.more-button {
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    font-size: 1.3rem;
 }
 
 .card-img {

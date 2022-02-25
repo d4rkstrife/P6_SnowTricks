@@ -23,10 +23,6 @@ class FigureGroup
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\Length(
-     *      min = 2,
-     *      minMessage = "Le nom doit faire au moins {{ limit }} caractères"
-     * )
      */
     private $name;
 
