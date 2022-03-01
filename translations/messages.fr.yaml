@@ -17,6 +17,7 @@ button:
   delete: Supprimer
 figure:
   addVideo: Ajouter une vidéo
+  video: Vidéos
   group: Groupe %group%
   name: nom
   description: Description
