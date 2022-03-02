@@ -45,10 +45,10 @@
 		{% endif %}
 
 		{% if figure.figurePictures|length == 0 %}
-			<img src="{{ asset('image/default/default.jpg') }}" class="card-img-top">
+			<img src="{{ asset('image/default/default.jpg') }}" class="figure-principal-img">
 
 		{% elseif figure.figurePictures|length == 1 %}
-			<img src="{{ asset('image/upload/' ~ figure.figurePictures[0].fileName) }}" class="card-img-top">
+			<img src="{{ asset('image/upload/' ~ figure.figurePictures[0].fileName) }}" class="figure-principal-img">
 
 
 		{% elseif figure.figurePictures|length > 1 %}
@@ -56,11 +56,11 @@
 			{% for picture in figure.figurePictures %}
 				{% if picture.main %}
 					{% set mainExist = true %}
-					<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img-top">
+					<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="figure-principal-img">
 				{% endif %}
 			{% endfor %}
 			{% if mainExist == false %}
-				<img src="{{ asset('image/upload/' ~ figure.figurePictures[0].fileName) }}" class="card-img-top">
+				<img src="{{ asset('image/upload/' ~ figure.figurePictures[0].fileName) }}" class="figure-principal-img">
 			{% endif %}
 		{% endif %}
 
@@ -92,6 +92,7 @@
 			<p>{{ 'figure.modifiedAt'|trans({'%date%': figure.modifiedAt | date("d/m/Y \\à G\\hi", "Europe/Paris")})}}</p>
 		{% endif %}
 	</div>
+	<hr class="mid-page-separator">
 	<div class="trick-comments" id="comments">
 		{% if app.user %}
 			<hr>

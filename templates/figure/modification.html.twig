@@ -9,18 +9,39 @@
 
 	<div class="form-container">
 		<div class="new-figure-form">
+			{% if figure.figurePictures|length == 0 %}
+				<img src="{{ asset('image/default/default.jpg') }}" class="figure-principal-img">
+
+			{% elseif figure.figurePictures|length == 1 %}
+				<img src="{{ asset('image/upload/' ~ figure.figurePictures[0].fileName) }}" class="figure-principal-img">
+
+
+			{% elseif figure.figurePictures|length > 1 %}
+				{% set mainExist = false %}
+				{% for picture in figure.figurePictures %}
+					{% if picture.main %}
+						{% set mainExist = true %}
+						<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="figure-principal-img">
+					{% endif %}
+				{% endfor %}
+				{% if mainExist == false %}
+					<img src="{{ asset('image/upload/' ~ figure.figurePictures[0].fileName) }}" class="figure-principal-img">
+				{% endif %}
+			{% endif %}
+
 			{{ form_start(form) }}
-			<div class="form-row">
-				<div class="form-group col-md-6">
-					{{ form_label(form.name)}}
-					{{ form_widget(form.name, {'attr': {'class': 'form-control'}})}}
-					{{ form_errors(form.name) }}
-				</div>
-				<div class="form-group col-md-1">
+			<div class="form-row form-name-group">
+				<div class="form-group">
 					{{ form_label(form.figureGroup) }}
 					{{ form_widget(form.figureGroup,  {'attr': {'class': 'form-control'}})}}
 					{{ form_errors(form.figureGroup) }}
 				</div>
+				<div class="form-group">
+					{{ form_label(form.name)}}
+					{{ form_widget(form.name, {'attr': {'class': 'form-control'}})}}
+					{{ form_errors(form.name) }}
+				</div>
+
 
 			</div>
 
@@ -38,26 +59,40 @@
 				{% for picture in figure.figurePictures %}
 					<div class="card" style="width:35%">
 						<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img-top">
-						<a href="{{path('deletePicture', {pictureId: picture.id, figureId: figure.id}) }}">
-							<button type="button" class="btn btn-danger">{{ "modifiateFigure.delete"|trans }}</button>
-						</a>
-
-						{% if picture.main != true %}
-							<a href="{{path('makePictureMain', {picture: picture.id}) }}">
-								<button type="button" class="btn btn-success">{{ "modifiateFigure.makeMain"|trans }}</button>
+						<div class="image-icons">
+							<a href="{{path('deletePicture', {pictureId: picture.id, figureId: figure.id}) }}">
+								<button type="button" class="btn btn-danger"><img src="{{ asset('image/icons/poubelle.png') }}" class="icons"></button>
 							</a>
-						{% endif %}
+
+							{% if picture.main != true %}
+								<a href="{{path('makePictureMain', {picture: picture.id}) }}">
+									<button type="button" class="btn btn-light"><img src="{{ asset('image/icons/empty-star.png') }}" class="icons"></button>
+								</a>
+							{% elseif picture.main is same as true %}
+								<img src="{{ asset('image/icons/gold-star.png') }}" class="icons">
+							{% endif %}
+						</div>
 					</div>
 				{% endfor %}
 			</div>
-			<ul class="tags" data-index="{{ form.relatedVideos|length > 0 ? form.relatedVideos|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(form.relatedVideos.vars.prototype)|e('html_attr') }}">
+			<div class="form-video">
+				<h4>{{'figure.video'|trans}}</h4>
+				<div class="form-videolist">
+					<ul class="tags" data-index="{{ form.relatedVideos|length > 0 ? form.relatedVideos|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(form.relatedVideos.vars.prototype)|e('html_attr') }}">
 
-				<button type="button" class="add_item_link" data-collection-holder-class="tags">{{'figure.addVideo'|trans}}</button>
-				{% for video in form.relatedVideos %}
-					<div>{{ video.link.vars.value| raw }}</div>
-					<li>{{ form_row(video.link) }}</li>
-				{% endfor %}
-			</ul>
+
+						{% for video in form.relatedVideos %}
+							<div class="related-video">
+								<div>{{ video.link.vars.value| raw }}</div>
+								<li>{{ form_row(video.link) }}</li>
+							</div>
+						{% endfor %}
+
+
+					</ul>
+					<button type="button" class="add_item_link" data-collection-holder-class="tags">{{'figure.addVideo'|trans}}</button>
+				</div>
+			</div>
 
 
 			<button type="submit" class="btn btn-success" style="margin-bottom: 35px">{{ "button.validate"|trans }}</button>
