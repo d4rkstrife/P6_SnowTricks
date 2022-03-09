@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\FigurePictureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\FigurePictureRepository;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=FigurePictureRepository::class)
@@ -19,6 +21,12 @@ class FigurePicture
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 55,
+     *      minMessage = "Le nom du fichier doit faire au moins {{ limit }} caractères",
+     *      maxMessage = "Le nom du fichier doit faire au maximum {{ limit }} caractères"
+     * )
      */
     private $filename;
 
