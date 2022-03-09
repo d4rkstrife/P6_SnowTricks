@@ -147,7 +147,7 @@ class FigureController extends AbstractController
         $figure = $figureRepo->findOneBy(['id' => $figureId]);
         $figure->removeFigurePicture($picture);
         $fileSystem->remove(
-            $this->getParameter('figurePicture_directory') . "/" . $picture->getFilename()
+            $this->getParameter('figurePictureDirectory') . "/" . $picture->getFilename()
         );
 
         $em->flush();

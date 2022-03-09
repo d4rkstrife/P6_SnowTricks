@@ -61,7 +61,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
      * Assert\NotCompromisedPassword
-     * @Assert\Regex("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$^")
+     * @Assert\Regex(
+     * pattern="/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%&(){}:;<>,.?\/~_+-=|]).{8,32}$/",
+     * message="Votre mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre, un caractère spécial, et au moins 8 caractères.")
      */
     private $password;
 

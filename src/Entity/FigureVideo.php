@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\FigureVideoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\FigureVideoRepository;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=FigureVideoRepository::class)
@@ -16,9 +18,13 @@ class FigureVideo
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    ///^(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))$/
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     * pattern="/^<iframe(?:\b|_).*?(?:\b|_)(?:youtube)(?:\b|_).*?(?:\b|_)iframe>$/",
+     * message="Seuls les liens iframe youtube sont acceptés"
+     * )
      */
     private $link;
 

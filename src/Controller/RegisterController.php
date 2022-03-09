@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\UriSigner;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RegisterController extends AbstractController
 {
@@ -31,7 +32,7 @@ class RegisterController extends AbstractController
     }
 
     #[Route('/register', name: 'register')]
-    public function index(Request $request, FlashBagInterface $flash, SluggerInterface $slugger, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher, MailerInterface $mailer): Response
+    public function index(Request $request, FlashBagInterface $flash, SluggerInterface $slugger, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher, MailerInterface $mailer, UriSigner $urisigner): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('home');
@@ -72,6 +73,9 @@ class RegisterController extends AbstractController
             $em->persist($user);
             $em->flush();
 
+            $url = $this->generateUrl('validate', ['user' => $user->getId(), 'key' => $user->getRegistrationKey()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $signedUrl = $urisigner->sign($url);
+
             $email = (new TemplatedEmail())
                 ->from($this->websiteAdress)
                 ->to($user->getEmail())
@@ -79,6 +83,7 @@ class RegisterController extends AbstractController
                 ->text('localhost:8000/validate/' . $user->getId() . '/' . $user->getRegistrationKey())
                 ->context([
                     'user' => $user,
+                    'url' => $signedUrl,
                 ])
                 ->htmlTemplate('email/validation.html.twig');
 
@@ -100,7 +105,8 @@ class RegisterController extends AbstractController
     #[Route('/validate/{user}/{key}', name: 'validate')]
     public function validate(User $user, string $key, FlashBagInterface $flash, EntityManagerInterface $em, Request $request, UriSigner $uriSigner): Response
     {
-        if ($uriSigner->checkRequest($request)) {
+        if (!$uriSigner->checkRequest($request) || $user->getRegistrationKey() !== $key) {
+            return $this->redirectToRoute('home');
         }
 
         if ($user->getRegistrationKey() === $key) {

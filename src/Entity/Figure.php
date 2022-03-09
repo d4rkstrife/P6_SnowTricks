@@ -8,6 +8,7 @@ use App\Validator as CustomAssert;
 use App\Repository\FigureRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -66,11 +67,13 @@ class Figure
 
     /**
      * @ORM\OneToMany(targetEntity=FigurePicture::class, mappedBy="relatedFigure", orphanRemoval=true, cascade={"persist"})
+     * @Assert\Valid()
      */
     private $figurePictures;
 
     /**
      * @ORM\OneToMany(targetEntity=FigureVideo::class, mappedBy="relatedFigure", orphanRemoval=true, cascade={"persist"})
+     * @Assert\Valid()
      */
     private $relatedVideos;
 
