@@ -59,7 +59,7 @@ class FigureController extends AbstractController
 
     #[Route('/modification/{slug}', name: 'modification')]
     #[IsGranted('ROLE_USER')]
-    public function figureModification(ValidatorInterface $validator, FigureRepository $figureRepository, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, string $slug, PictureService $pictureService): Response
+    public function figureModification(ValidatorInterface $validator, FigureRepository $figureRepository, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, string $slug, PictureService $pictureService): Response
     {
 
         $figure = $figureRepository->findOneBy(['slug' => $slug]);
@@ -81,7 +81,7 @@ class FigureController extends AbstractController
                 $violations = $validator->validate($pictureFile, new Image(['maxWidth' => 2160, 'maxHeight' => 3840, 'maxSize' => "3M", "mimeTypes" => ["image/jpeg", "image/png"]]));
                 if (count($violations) > 0) {
                     foreach ($violations as $violation) {
-                        $flash->add('error', $pictureFile->getClientOriginalName() . " " . $violation->getMessage());
+                        $this->addFlash('error', $pictureFile->getClientOriginalName() . " " . $violation->getMessage());
                         return $this->render('figure/modification.html.twig', [
                             'figure' => $figure,
                             'form' => $form->createView()
@@ -101,7 +101,7 @@ class FigureController extends AbstractController
             $figure->setModifiedAt(date_create());
             $em->flush();
 
-            $flash->add('success', 'Modifié avec succès');
+            $this->addFlash('success', 'Modifié avec succès');
             return $this->redirectToRoute('figure', ['slug' => $figure->getSlug()]);
         }
 
@@ -114,7 +114,7 @@ class FigureController extends AbstractController
 
     #[Route('/newFigure', name: 'newFigure')]
     #[IsGranted('ROLE_USER')]
-    public function newFigure(ValidatorInterface $validator, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, PictureService $pictureService)
+    public function newFigure(ValidatorInterface $validator, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, PictureService $pictureService)
     {
         $figure = new Figure();
 
@@ -131,7 +131,7 @@ class FigureController extends AbstractController
                 $violations = $validator->validate($pictureFile, new Image(['maxWidth' => 2160, 'maxHeight' => 3840, 'maxSize' => "3M", "mimeTypes" => ["image/jpeg", "image/png"]]));
                 if (count($violations) > 0) {
                     foreach ($violations as $violation) {
-                        $flash->add('error', $pictureFile->getClientOriginalName() . " " . $violation->getMessage());
+                        $this->addFlash('error', $pictureFile->getClientOriginalName() . " " . $violation->getMessage());
                         return $this->render('figure/newFigure.html.twig', [
                             'form' => $form->createView()
                         ]);
@@ -152,7 +152,7 @@ class FigureController extends AbstractController
             $em->persist($figure);
 
             $em->flush();
-            $flash->add('success', 'Ajouté avec succès');
+            $this->addFlash('success', 'Ajouté avec succès');
             return $this->redirectToRoute('home');
         }
         return $this->render('figure/newFigure.html.twig', [
