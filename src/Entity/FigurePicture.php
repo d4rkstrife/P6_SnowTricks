@@ -21,12 +21,6 @@ class FigurePicture
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(
-     *      min = 2,
-     *      max = 55,
-     *      minMessage = "Le nom du fichier doit faire au moins {{ limit }} caractères",
-     *      maxMessage = "Le nom du fichier doit faire au maximum {{ limit }} caractères"
-     * )
      */
     private $filename;
 
