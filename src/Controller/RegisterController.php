@@ -21,7 +21,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegisterController extends AbstractController
@@ -36,7 +35,7 @@ class RegisterController extends AbstractController
     }
 
     #[Route('/register', name: 'register')]
-    public function index(Request $request, FlashBagInterface $flash, SluggerInterface $slugger, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher, MailerInterface $mailer, UriSigner $urisigner): Response
+    public function index(Request $request, SluggerInterface $slugger, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher, MailerInterface $mailer, UriSigner $urisigner): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('home');
@@ -73,7 +72,7 @@ class RegisterController extends AbstractController
             }
             $user->setPassword($passwordHasher->hashPassword($user, $form->get('password')->getData()));
             $user->setMailIsValidate(false);
-            $user->setRegistrationKey('toto');
+            $user->setRegistrationKey(md5(random_bytes(8)));
             $em->persist($user);
             $em->flush();
 
@@ -93,7 +92,7 @@ class RegisterController extends AbstractController
 
             $mailer->send($email);
 
-            $flash->add('success', 'Compte créé avec succès');
+            $this->addFlash('success', 'Compte créé avec succès');
 
             return $this->redirectToRoute('home');
 
@@ -107,11 +106,11 @@ class RegisterController extends AbstractController
     }
 
     #[Route('/validate/{user}/{key}', name: 'validate')]
-    public function validate(User $user, string $key, FlashBagInterface $flash, EntityManagerInterface $em, Request $request, UriSigner $uriSigner): Response
+    public function validate(User $user, string $key, EntityManagerInterface $em, Request $request, UriSigner $uriSigner): Response
     {
         if (!$uriSigner->checkRequest($request) || $user->getRegistrationKey() !== $key) {
             return $this->redirectToRoute('home');
-            $flash->add('error', 'Adresse incorrecte');
+            $this->addFlash('error', 'Adresse incorrecte');
         }
 
         if ($user->getRegistrationKey() === $key) {
@@ -121,7 +120,7 @@ class RegisterController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $flash->add('success', 'Adresse mail confirmée');
+            $this->addFlash('success', 'Adresse mail confirmée');
 
             return $this->redirectToRoute('app_login');
         }
@@ -130,13 +129,23 @@ class RegisterController extends AbstractController
     #[Route('/forgotPassword', name: 'forgotPassword')]
     public function forgotPassword(Request $request, UserRepository $userRepository,  MailerInterface $mailer, EntityManagerInterface $em, UriSigner $urisigner): Response
     {
+        if ($this->getUser()) {
+            $this->addFlash('error', "vous n'êtes pas autorisé à acceder à cette page");
+            return $this->redirectToRoute('home');
+        }
         $form = $this->createForm(ForgotPasswordType::class);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            //   dd($form->get('email')->getData());
+        if ($form->isSubmitted() && $form->isValid()) {
+
             $user = $userRepository->findOneBy(['email' => $form->get('email')->getData()]);
-            $user->setResetPasswordKey('tutu');
+
+            if ($user === null) {
+                $this->addFlash('error', 'Utilisateur introuvable');
+                return $this->redirectToRoute('home');
+            }
+
+            $user->setResetPasswordKey(md5(random_bytes(8)));
             $em->persist($user);
             $em->flush();
 
@@ -166,6 +175,10 @@ class RegisterController extends AbstractController
     #[Route('/resetPassword/{user}/{key}', name: 'resetPassword')]
     public function resetPassword(User $user, string $key, UriSigner $uriSigner, Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
     {
+        if ($this->getUser()) {
+            $this->addFlash('error', "Vous n'êtes pas autorisé à acceder à cette page");
+            return $this->redirectToRoute('home');
+        }
         if (!$uriSigner->checkRequest($request) || $user->getResetPasswordKey() !== $key) {
 
             $this->addFlash('error', 'Lien incorrect');
@@ -174,13 +187,13 @@ class RegisterController extends AbstractController
         $form = $this->createForm(ResetPasswordType::class);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword($passwordHasher->hashPassword($user, $form->get('password')->getData()));
             $user->setResetPasswordKey(null);
             $em->persist($user);
             $em->flush();
             $this->addFlash('success', 'Mot de passe mis à jour');
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('app_login');
         }
         return $this->render('security/resetPassword.html.twig', [
             'form' => $form->createView(),

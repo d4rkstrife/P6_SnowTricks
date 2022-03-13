@@ -8,6 +8,9 @@ nav:
   logOut: Se déconnecter
   loginTitle: Connectez-vous
   allFigure: Toutes les figures
+  forgotPassword: 
+    link: Mot de passe oublié
+    message: Entrez votre adresse mail pour recevoir le lien de réinitialisation
 card:
   details: Détails
 button: 
@@ -38,6 +41,7 @@ modifiateFigure:
 mail:
   subject: Bienvenue sur Snowtricks
   thanks: Merci pour votre inscription %user%.
+  reinitialisation: Cliquez sur le lien pour reinitialiser votre mot de passe.
   link: Cliquez sur le lien pour valider votre adresse mail
   click: Cliquez ici
 properties:
