@@ -5,20 +5,24 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Entity\ProfilPicture;
+use App\Form\ResetPasswordType;
+use Doctrine\ORM\EntityManager;
+use App\Form\ForgotPasswordType;
 use Symfony\Component\Mime\Email;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpKernel\UriSigner;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\HttpKernel\UriSigner;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RegisterController extends AbstractController
 {
@@ -121,5 +125,65 @@ class RegisterController extends AbstractController
 
             return $this->redirectToRoute('app_login');
         }
+    }
+
+    #[Route('/forgotPassword', name: 'forgotPassword')]
+    public function forgotPassword(Request $request, UserRepository $userRepository,  MailerInterface $mailer, EntityManagerInterface $em, UriSigner $urisigner): Response
+    {
+        $form = $this->createForm(ForgotPasswordType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            //   dd($form->get('email')->getData());
+            $user = $userRepository->findOneBy(['email' => $form->get('email')->getData()]);
+            $user->setResetPasswordKey('tutu');
+            $em->persist($user);
+            $em->flush();
+
+            $url = $this->generateUrl('resetPassword', ['user' => $user->getId(), 'key' => $user->getResetPasswordKey()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $signedUrl = $urisigner->sign($url);
+
+            $email = (new TemplatedEmail())
+                ->from($this->websiteAdress)
+                ->to($user->getEmail())
+                ->subject('Réinitialisation mot de passe')
+                ->context([
+                    'user' => $user,
+                    'url' => $signedUrl,
+                ])
+                ->htmlTemplate('email/resetPassword.html.twig');
+            $mailer->send($email);
+
+            $this->addFlash('success', 'Demande de reinitialisation de mot de passe envoyée avec succès');
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('security/forgotPassword.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    #[Route('/resetPassword/{user}/{key}', name: 'resetPassword')]
+    public function resetPassword(User $user, string $key, UriSigner $uriSigner, Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        if (!$uriSigner->checkRequest($request) || $user->getResetPasswordKey() !== $key) {
+
+            $this->addFlash('error', 'Lien incorrect');
+            return $this->redirectToRoute('home');
+        }
+        $form = $this->createForm(ResetPasswordType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $user->setPassword($passwordHasher->hashPassword($user, $form->get('password')->getData()));
+            $user->setResetPasswordKey(null);
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('success', 'Mot de passe mis à jour');
+            return $this->redirectToRoute('home');
+        }
+        return $this->render('security/resetPassword.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

@@ -27,9 +27,7 @@ class FigureType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => 'Description'
             ])
-            /*   ->add('slug', TextType::class, [
-                'label' => 'slug'
-            ])*/
+
             ->add('figureGroup', EntityType::class, [
                 // looks for choices from this entity
                 'class' => FigureGroup::class,
