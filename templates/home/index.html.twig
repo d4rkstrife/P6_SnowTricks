@@ -8,11 +8,7 @@
 	<div>
 
 		<div id="index-img">
-			{% for flashMessage in app.session.flashbag.get('success') %}
 
-				<h5 class="success">{{ flashMessage }}</h5>
-
-			{% endfor %}
 			<img src="{{ asset('image/man-g609b0aeff_1920.jpg') }}" class="img-fluid" id="index-fullscreen-img">
 			<a href="#figures_card" class="arrow-down">
 				<div class="container">

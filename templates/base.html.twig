@@ -55,6 +55,16 @@
 				</div>
 			</div>
 		</nav>
+		{% for flashMessage in app.session.flashbag.get('success') %}
+
+			<h5 class="success">{{ flashMessage }}</h5>
+
+		{% endfor %}
+		{% for flashMessage in app.session.flashbag.get('error') %}
+
+			<h5 class="error">{{ flashMessage }}</h5>
+
+		{% endfor %}
 		{% block body %}{% endblock %}
 
 	</body>

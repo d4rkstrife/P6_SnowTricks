@@ -18,11 +18,13 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class FigureController extends AbstractController
 {
@@ -57,7 +59,7 @@ class FigureController extends AbstractController
 
     #[Route('/modification/{slug}', name: 'modification')]
     #[IsGranted('ROLE_USER')]
-    public function figureModification(FigureRepository $figureRepository, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, string $slug, PictureService $pictureService): Response
+    public function figureModification(ValidatorInterface $validator, FigureRepository $figureRepository, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, string $slug, PictureService $pictureService): Response
     {
 
         $figure = $figureRepository->findOneBy(['slug' => $slug]);
@@ -73,9 +75,20 @@ class FigureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $pictureFiles = $form->get('picture')->getData();
             foreach ($pictureFiles as $pictureFile) {
-
+                $violations = $validator->validate($pictureFile, new Image(['maxWidth' => 2160, 'maxHeight' => 3840, 'maxSize' => "3M", "mimeTypes" => ["image/jpeg", "image/png"]]));
+                if (count($violations) > 0) {
+                    foreach ($violations as $violation) {
+                        $flash->add('error', $pictureFile->getClientOriginalName() . " " . $violation->getMessage());
+                        return $this->render('figure/modification.html.twig', [
+                            'figure' => $figure,
+                            'form' => $form->createView()
+                        ]);
+                        //                        dd($violation->getMessage(), $pictureFile->getClientOriginalName());
+                    }
+                }
                 $figurePicture = $pictureService->uploadPicture($pictureFile, $main);
 
                 $figure->addFigurePicture($figurePicture);
@@ -101,7 +114,7 @@ class FigureController extends AbstractController
 
     #[Route('/newFigure', name: 'newFigure')]
     #[IsGranted('ROLE_USER')]
-    public function newFigure(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, PictureService $pictureService)
+    public function newFigure(ValidatorInterface $validator, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FlashBagInterface $flash, PictureService $pictureService)
     {
         $figure = new Figure();
 
@@ -115,8 +128,17 @@ class FigureController extends AbstractController
 
             $main = true;
             foreach ($pictureFiles as $pictureFile) {
+                $violations = $validator->validate($pictureFile, new Image(['maxWidth' => 2160, 'maxHeight' => 3840, 'maxSize' => "3M", "mimeTypes" => ["image/jpeg", "image/png"]]));
+                if (count($violations) > 0) {
+                    foreach ($violations as $violation) {
+                        $flash->add('error', $pictureFile->getClientOriginalName() . " " . $violation->getMessage());
+                        return $this->render('figure/newFigure.html.twig', [
+                            'form' => $form->createView()
+                        ]);
+                        //                        dd($violation->getMessage(), $pictureFile->getClientOriginalName());
+                    }
+                }
                 $figurePicture = $pictureService->uploadPicture($pictureFile, $main);
-
                 $figure->addFigurePicture($figurePicture);
                 if ($main === true) {
                     $main = false;

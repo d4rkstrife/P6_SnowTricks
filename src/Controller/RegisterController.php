@@ -107,6 +107,7 @@ class RegisterController extends AbstractController
     {
         if (!$uriSigner->checkRequest($request) || $user->getRegistrationKey() !== $key) {
             return $this->redirectToRoute('home');
+            $flash->add('error', 'Adresse incorrecte');
         }
 
         if ($user->getRegistrationKey() === $key) {
