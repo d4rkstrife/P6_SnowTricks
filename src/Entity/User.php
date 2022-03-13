@@ -93,6 +93,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $mailIsValidate;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resetPasswordKey;
+
     public function __construct()
     {
         $this->figures = new ArrayCollection();
@@ -298,6 +303,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getResetPasswordKey(): ?string
+    {
+        return $this->resetPasswordKey;
+    }
+
+    public function setResetPasswordKey(?string $resetPasswordKey): self
+    {
+        $this->resetPasswordKey = $resetPasswordKey;
 
         return $this;
     }
