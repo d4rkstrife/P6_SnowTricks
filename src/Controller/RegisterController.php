@@ -109,8 +109,8 @@ class RegisterController extends AbstractController
     public function validate(User $user, string $key, EntityManagerInterface $em, Request $request, UriSigner $uriSigner): Response
     {
         if (!$uriSigner->checkRequest($request) || $user->getRegistrationKey() !== $key) {
+            $this->addFlash('error', 'Lien incorrect');
             return $this->redirectToRoute('home');
-            $this->addFlash('error', 'Adresse incorrecte');
         }
 
         if ($user->getRegistrationKey() === $key) {
@@ -142,7 +142,7 @@ class RegisterController extends AbstractController
 
             if ($user === null) {
                 $this->addFlash('error', 'Utilisateur introuvable');
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('forgotPassword');
             }
 
             $user->setResetPasswordKey(md5(random_bytes(8)));
@@ -187,6 +187,7 @@ class RegisterController extends AbstractController
         $form = $this->createForm(ResetPasswordType::class);
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword($passwordHasher->hashPassword($user, $form->get('password')->getData()));
             $user->setResetPasswordKey(null);
