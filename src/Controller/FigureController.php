@@ -78,7 +78,7 @@ class FigureController extends AbstractController
 
             $pictureFiles = $form->get('picture')->getData();
             foreach ($pictureFiles as $pictureFile) {
-                $violations = $validator->validate($pictureFile, new Image(['maxWidth' => 2160, 'maxHeight' => 3840, 'maxSize' => "3M", "mimeTypes" => ["image/jpeg", "image/png"]]));
+                $violations = $validator->validate($pictureFile, new Image(['maxWidth' => 3840, 'maxHeight' => 2860, 'maxSize' => "3M", "mimeTypes" => ["image/jpeg", "image/png"]]));
                 if (count($violations) > 0) {
                     foreach ($violations as $violation) {
                         $this->addFlash('error', $pictureFile->getClientOriginalName() . " " . $violation->getMessage());
