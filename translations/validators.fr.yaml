@@ -1,1 +1,2 @@
 uniqueSlug: Le slug {{ value }} doit être unique
+passwordMatch: tutu

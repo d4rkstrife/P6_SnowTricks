@@ -18,6 +18,7 @@ button:
   validate: Valider
   cancel: Annuler
   delete: Supprimer
+  seeMedia: Voir les médias
 figure:
   addVideo: Ajouter une vidéo
   video: Vidéos
