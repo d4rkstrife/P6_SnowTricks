@@ -14,6 +14,7 @@ import './styles/app.scss';
 // the bootstrap module doesn't export/return anything
 require('bootstrap');
 import './js/addvideo';
+import './js/app';
 
 // or you can include specific pieces
 // require('bootstrap/js/dist/tooltip');

@@ -63,6 +63,7 @@
 		<h1>{{ figure.name | capitalize}}</h1>
 
 	</div>
+	<button class="see-media-button">{{'button.seeMedia'|trans}}</button>
 	<div class="trick-page-mid">
 		{% for video in figure.relatedVideos %}
 			{{ video.link | raw}}

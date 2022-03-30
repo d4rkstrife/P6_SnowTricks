@@ -313,3 +313,43 @@ a {
     padding: 5%;
     border: 1px solid black;
 }
+
+.see-media-button {
+    display: none;
+}
+
+@media only screen and (max-width: 991px) {
+    .figure-card-list {
+        padding: 0;
+    }
+    .card {
+        width: 90%;
+        height: 42vh;
+        margin: 0;
+    }
+    .see-media-button {
+        display: block;
+    }
+    .figure-principal-img {
+        width: 100vw;
+    }
+    .trick-page-mid {
+        display: none;
+    }
+    .trick-small-image {
+        width: 100%;
+    }
+    .trick-page-mid iframe {
+        width: 100%;
+    }
+    .new-figure-form {
+        width: 100%;
+    }
+    .form-container {
+        width: 100%;
+        margin: 0;
+    }
+    .pictures_container {
+        display: none;
+    }
+}

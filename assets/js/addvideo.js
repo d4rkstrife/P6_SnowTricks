@@ -32,15 +32,13 @@ const addTagFormDeleteLink = (item) => {
 
 
 const collectionHelper = () => {
-    console.log('tyty');
     document
         .querySelectorAll('ul.tags li')
         .forEach((tag) => {
             addTagFormDeleteLink(tag)
         })
     const button = document.querySelector('.add_item_link');
-    //  
-    console.log('toto', button, 'yuyu');
+
     button.addEventListener("click", addFormToCollection);
 }
 document.addEventListener('DOMContentLoaded', function() { collectionHelper() });

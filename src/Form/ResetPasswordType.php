@@ -21,10 +21,10 @@ class ResetPasswordType extends AbstractType
             ->add('password', RepeatedType::class, [
                 'label' => false,
                 'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'passwordMatch',
                 'constraints' => [
                     new NotBlank(),
-                    new Regex("/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%&(){}:;<>,.?\/~_+-=|]).{8,32}$/"),
+                    new Regex("/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%&(){}:;<>,.?\/~_+-=|]).{8,32}$/", 'passwordMatch'),
 
                 ],
                 'options' => ['attr' => ['class' => 'password-field'],],

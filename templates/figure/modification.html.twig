@@ -56,9 +56,10 @@
 				{{ form_errors(form.picture) }}
 
 			</div>
+			<button class="see-media-button">{{'button.seeMedia'|trans}}</button>
 			<div class="pictures_container">
 				{% for picture in figure.figurePictures %}
-					<div class="card" style="width:35%">
+					<div class="card">
 						<img src="{{ asset('image/upload/' ~ picture.fileName) }}" class="card-img-top">
 						<div class="image-icons">
 							<a href="{{path('deletePicture', {pictureId: picture.id, figureId: figure.id}) }}">
