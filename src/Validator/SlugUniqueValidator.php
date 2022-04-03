@@ -23,8 +23,7 @@ class SlugUniqueValidator extends ConstraintValidator
 
 
 
-        //   $figures = $this->figureRepository->findBy(['slug' => $this->slugger->slug($value)]);
-        // if (count($figures) > 0) {
+
         /* @var Figure $value
              */
         if ($this->figureRepository->countSlug($this->slugger->slug($value->getName()), $value) > 0) {

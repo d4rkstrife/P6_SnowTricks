@@ -24,7 +24,7 @@ class ResetPasswordType extends AbstractType
                 'invalid_message' => 'passwordMatch',
                 'constraints' => [
                     new NotBlank(),
-                    new Regex("/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%&(){}:;<>,.?\/~_+-=|]).{8,32}$/", 'passwordMatch'),
+                    new Regex("/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%&(){}:;<>,.?\/~_+-=|]).{8,32}$/", 'passwordRegex'),
 
                 ],
                 'options' => ['attr' => ['class' => 'password-field'],],
