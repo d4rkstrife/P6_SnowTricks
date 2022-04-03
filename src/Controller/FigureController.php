@@ -29,8 +29,14 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class FigureController extends AbstractController
 {
     #[Route('/figure/{slug}', name: 'figure')]
-    public function figureShow(FigureRepository $figureRepository, CommentRepository $commentRepository, string $slug, Request $request, EntityManagerInterface $em, Paginator $paginator): Response
-    {
+    public function figureShow(
+        FigureRepository $figureRepository,
+        CommentRepository $commentRepository,
+        string $slug,
+        Request $request,
+        EntityManagerInterface $em,
+        Paginator $paginator
+    ): Response {
         $figure = $figureRepository->findOneBy(['slug' => $slug]);
         $comments = $commentRepository->findBy(['relatedFigure' => $figure], ['date' => 'desc'], $paginator->numberOfItems('app.commentperpage'), 0);
 
@@ -59,8 +65,15 @@ class FigureController extends AbstractController
 
     #[Route('/modification/{slug}', name: 'modification')]
     #[IsGranted('ROLE_USER')]
-    public function figureModification(ValidatorInterface $validator, FigureRepository $figureRepository, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, string $slug, PictureService $pictureService): Response
-    {
+    public function figureModification(
+        ValidatorInterface $validator,
+        FigureRepository $figureRepository,
+        Request $request,
+        EntityManagerInterface $em,
+        SluggerInterface $slugger,
+        string $slug,
+        PictureService $pictureService
+    ): Response {
 
         $figure = $figureRepository->findOneBy(['slug' => $slug]);
         $figurePictures = $figure->getFigurePictures();
@@ -114,8 +127,13 @@ class FigureController extends AbstractController
 
     #[Route('/newFigure', name: 'newFigure')]
     #[IsGranted('ROLE_USER')]
-    public function newFigure(ValidatorInterface $validator, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, PictureService $pictureService)
-    {
+    public function newFigure(
+        ValidatorInterface $validator,
+        Request $request,
+        EntityManagerInterface $em,
+        SluggerInterface $slugger,
+        PictureService $pictureService
+    ) {
         $figure = new Figure();
 
 
@@ -128,7 +146,10 @@ class FigureController extends AbstractController
 
             $main = true;
             foreach ($pictureFiles as $pictureFile) {
-                $violations = $validator->validate($pictureFile, new Image(['maxWidth' => 2160, 'maxHeight' => 3840, 'maxSize' => "3M", "mimeTypes" => ["image/jpeg", "image/png"]]));
+                $violations = $validator->validate(
+                    $pictureFile,
+                    new Image(['maxWidth' => 2160, 'maxHeight' => 3840, 'maxSize' => "3M", "mimeTypes" => ["image/jpeg", "image/png"]])
+                );
                 if (count($violations) > 0) {
                     foreach ($violations as $violation) {
                         $this->addFlash('error', $pictureFile->getClientOriginalName() . " " . $violation->getMessage());
