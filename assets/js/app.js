@@ -1,8 +1,14 @@
 const showElt = () => {
     document.querySelector('.see-media-button').style.display = "none";
-    document.querySelector('.trick-page-mid').style.display = "flex";
-    document.querySelector('.pictures_container').style.display = "flex";
-    console.log(elt);
+    const trickElt = document.querySelector('.trick-page-mid');
+    const picturesElt = document.querySelector('.pictures_container');
+
+    if (trickElt !== null) {
+        trickElt.style.display = "flex";
+    } else if (picturesElt !== null) {
+        picturesElt.style.display = "flex";
+    }
+    console.log(trickElt, picturesElt);
 }
 const getButton = () => {
     const buttonShow = document.querySelector('.see-media-button');
