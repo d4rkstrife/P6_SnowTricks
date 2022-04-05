@@ -319,6 +319,12 @@ a {
 }
 
 @media only screen and (max-width: 991px) {
+    #index-fullscreen-img {
+        object-fit: cover;
+        object-position: right;
+        height: auto;
+        width: auto;
+    }
     .figure-card-list {
         padding: 0;
     }
@@ -326,6 +332,7 @@ a {
         width: 90%;
         height: 42vh;
         margin: 0;
+        margin-bottom: 15px;
     }
     .see-media-button {
         display: block;
@@ -337,6 +344,7 @@ a {
         display: none;
     }
     .trick-small-image {
+        margin-bottom: 15px;
         width: 100%;
     }
     .trick-page-mid iframe {
