@@ -18,7 +18,7 @@ const addFormToCollection = (e) => {
 };
 const addTagFormDeleteLink = (item) => {
     const removeFormButton = document.createElement('button');
-    removeFormButton.innerText = 'Delete this tag';
+    removeFormButton.innerText = 'Supprimer cette vidéo';
 
     item.append(removeFormButton);
 
