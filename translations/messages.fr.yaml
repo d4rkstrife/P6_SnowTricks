@@ -47,3 +47,5 @@ mail:
   click: Cliquez ici
 properties:
   not_blank: Cette case ne peut pas etre vide.
+form:
+  addVideos: Ajouter une vidéo embed Youtube

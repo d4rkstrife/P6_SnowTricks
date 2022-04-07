@@ -80,6 +80,7 @@
 			<div class="form-video">
 				<h4>{{'figure.video'|trans}}</h4>
 				<div class="form-videolist">
+
 					<ul class="tags" data-index="{{ form.relatedVideos|length > 0 ? form.relatedVideos|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(form.relatedVideos.vars.prototype)|e('html_attr') }}">
 
 
@@ -92,6 +93,8 @@
 
 
 					</ul>
+					<p>
+						{{'form.addVideos'|trans}}</p>
 					<button type="button" class="add_item_link" data-collection-holder-class="tags">{{'figure.addVideo'|trans}}</button>
 				</div>
 			</div>
